@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+﻿using student_management.Helper;
+using student_management.DAO;
+using System;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace student_management
@@ -26,7 +22,7 @@ namespace student_management
         private void btnLogin_Click(object sender, EventArgs e)
         {
             string email = txtEmail.Text;
-            string pass = txtPassword.Text;
+            string rawPass = txtPassword.Text;
             if (string.IsNullOrEmpty(email))
             {
                 lblValidateEmail.Text = "Email là bắt buộc";
@@ -36,7 +32,7 @@ namespace student_management
                 lblValidateEmail.Visible = false;
             }
 
-            if (string.IsNullOrEmpty(pass))
+            if (string.IsNullOrEmpty(rawPass))
             {
                 lblValidatePassword.Text = "Mật khẩu là bắt buộc";
                 lblValidatePassword.Visible = true;
@@ -45,30 +41,34 @@ namespace student_management
                 lblValidatePassword.Visible = false;
             }
 
-            if (!string.IsNullOrEmpty(email) && !validateEmail(email))
+            if (!string.IsNullOrEmpty(email) && !Function.validateEmail(email))
             {
                 lblValidateEmail.Text = "Email phải phù hợp với định dạng: abc@abc.com";
                 lblValidateEmail.Visible = true;
                 txtEmail.Focus();
-            } else if (!string.IsNullOrEmpty(email) && string.IsNullOrEmpty(pass) && !validateEmail(email))
+            } else if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(rawPass) && Function.validateEmail(email))
             {
-
+                DataClassesDataContext db = new DataClassesDataContext();
+                var result = db.Teachers.Where(teacher => teacher.email.Equals(email) && teacher.password.Equals(rawPass)).FirstOrDefault();
+                var test = db.Teachers;
+                if (result == null)
+                {
+                    MessageBox.Show("Tài khoản không tồn tại", "Lỗi đăng nhập");
+                } else
+                {
+                    this.Hide();
+                    Main_Form mainForm = new Main_Form();
+                    mainForm.Show();
+                }
+                Console.WriteLine(result);
             }
         }
 
-        private bool validateEmail(string email)
-        {
-            string pattern = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
-            Regex regex = new Regex(pattern);
-            bool isValid = regex.IsMatch(email);
-
-            return isValid;
-        }
 
         private void txtEmail_Validated(object sender, EventArgs e)
         {
             string email = txtEmail.Text;
-            if (string.IsNullOrEmpty(email) && !validateEmail(email))
+            if (string.IsNullOrEmpty(email) && !Function.validateEmail(email))
             {
                 lblValidateEmail.Visible = true;
                 txtEmail.Focus();
