@@ -14,8 +14,10 @@ namespace student_management_admin
     public partial class Main_Form_Admin : Form
     {
         AdminClassesDataContext db = new AdminClassesDataContext();
+
         Form_Insert_User form_Insert;
         Form_Insert_Subject form_Insert_Subject;
+        Form_Insert_Class form_Insert_Class;
         String txtSelect { get; set; }
 
         public Student student { get; set; }
@@ -24,11 +26,13 @@ namespace student_management_admin
         public Main_Form_Admin(string nameAdmin)
         {
             InitializeComponent();
+
             lblName.Text = nameAdmin;
 
             txtSelect = "student";
             
             lblTitle.Text = "Danh sách sinh viên";
+            hideLocation();
             dtgrvData.DataSource = db.Students
                 .Select(s => new
                 {
@@ -52,6 +56,8 @@ namespace student_management_admin
         {
             txtSelect = "student";
             lblTitle.Text = "Danh sách sinh viên";
+            hideLocation();
+            clearDataGrip();
             dtgrvData.DataSource = db.Students
                 .Select(s => new
                 {
@@ -68,6 +74,8 @@ namespace student_management_admin
         {
             txtSelect = "teacher";
             lblTitle.Text = "Danh sách giảng viên";
+            hideLocation();
+            clearDataGrip();
             dtgrvData.DataSource = db.Teachers
                 .Select(s => new
                 {
@@ -90,6 +98,10 @@ namespace student_management_admin
             {
                 form_Insert = new Form_Insert_User(txtSelect, "", false, this);
                 form_Insert.ShowDialog();
+            } else if (txtSelect.Equals("class"))
+            {
+                form_Insert_Class = new Form_Insert_Class(null, this);
+                form_Insert_Class.ShowDialog();
             }
 
         }
@@ -199,6 +211,7 @@ namespace student_management_admin
 
         public void DataGridViewRefresh()
         {
+            clearDataGrip();
             switch(txtSelect)
             {
                 case "student":
@@ -259,6 +272,8 @@ namespace student_management_admin
         {
             txtSelect = "subject";
             lblTitle.Text = "Danh sách môn học";
+            hideLocation();
+            clearDataGrip();
             dtgrvData.DataSource = db.Subjects
                 .Select(s => new
                 {
@@ -270,7 +285,136 @@ namespace student_management_admin
 
         private void btnSchedule_Click(object sender, EventArgs e)
         {
-            dtgrvData.Visible = false;
+            makeSchedule();
+            dtgvBuilding.DataSource = db.Buildings.Select(b => new
+            {
+                Mã_Toà_Nhà = b.id,
+                Tên_Toà_Nhà = b.name,
+            });
+        }
+
+        private void btnClass_Click(object sender, EventArgs e)
+        {
+            txtSelect = "class";
+            lblTitle.Text = "Danh sách lớp học";
+            hideLocation();
+            clearDataGrip();
+            dtgrvData.DataSource = from cls in db.Classes
+                        join classTeacher in db.Class_Teachers on cls.id equals classTeacher.class_id
+                        join teacher in db.Teachers on classTeacher.teacher_code equals teacher.code
+                        join classStudent in db.Class_Students on cls.id equals classStudent.class_id into studentGroup
+                        select new
+                        {
+                            Mã_Lớp = cls.id,
+                            Tên_Lớp = cls.name,
+                            Mã_GV = teacher.code,
+                            Tên_GV = teacher.name,
+                            SL_SV = studentGroup.Count()
+                        };
+        }
+
+        private void makeSchedule()
+        {
+            dtgrvData.DataSource = null;
+            dtgrvData.ColumnCount = 7;
+            dtgrvData.RowCount = 4;
+
+            dtgrvData.Columns[0].HeaderText = "Thứ 2";
+            dtgrvData.Columns[1].HeaderText = "Thứ 3";
+            dtgrvData.Columns[2].HeaderText = "Thứ 4";
+            dtgrvData.Columns[3].HeaderText = "Thứ 5";
+            dtgrvData.Columns[4].HeaderText = "Thứ 6";
+            dtgrvData.Columns[5].HeaderText = "Thứ 7";
+            dtgrvData.Columns[6].HeaderText = "Chủ nhật";
+
+            dtgrvData.Rows[0].HeaderCell.Value = "Ca 1";
+            dtgrvData.Rows[1].HeaderCell.Value = "Ca 2";
+            dtgrvData.Rows[2].HeaderCell.Value = "Ca 3";
+            dtgrvData.Rows[3].HeaderCell.Value = "Ca 4";
+        }
+
+        private void clearDataGrip()
+        {
+            dtgrvData.DataSource = null;
+            dtgrvData.Columns.Clear();
+            dtgrvData.Rows.Clear();
+        }
+
+        private void btnLocation_Click(object sender, EventArgs e)
+        {
+            showLocation();
+        }
+
+        private void showLocation()
+        {
+            pnActivity.Visible = false;
+            pnLocation.Visible = true;
+        }
+
+        private void hideLocation()
+        {
+            pnActivity.Visible = true;
+            pnLocation.Visible = false;
+        }
+
+        private void dtgvBuilding_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                int id_buiding = Convert.ToInt32(dtgvBuilding.Rows[e.RowIndex].Cells[0].Value);
+                //btnAddClassroom.Enabled = true;
+                dtgvClassroom.DataSource = from l in db.Locations
+                                           join b in db.Buildings on l.building_id equals b.id
+                                           join c in db.Classrooms on l.classroom_id equals c.id
+                                           where l.building_id == id_buiding
+                                           select new
+                                           {
+                                               Mã_Phòng_Học = c.id,
+                                               Tên_Phòng_Học = c.name
+                                           };
+            } else
+            {
+            }
+        }
+
+        private void Main_Form_Admin_Load(object sender, EventArgs e)
+        {
+        }
+
+        private void btnAddBuilding_Click(object sender, EventArgs e)
+        {
+            txtSelect = "building";
+            //form_Insert_Location = new Form_Insert_Location(0, false, txtSelect, this);
+            //form_Insert_Location.ShowDialog();
+        }
+
+        private void btnAddClassroom_Click(object sender, EventArgs e)
+        {
+            txtSelect = "classroom";
+            //form_Insert_Location = new Form_Insert_Location(0, false, txtSelect, this);
+            //form_Insert_Location.ShowDialog();
+        }
+
+        private void dtgvBuilding_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                txtSelect = "building";
+                int id_buiding = Convert.ToInt32(dtgvBuilding.Rows[e.RowIndex].Cells[0].Value);
+                //form_Insert_Location = new Form_Insert_Location(id_buiding, true, txtSelect, this);
+                //form_Insert_Location.ShowDialog();
+            }
+        }
+
+        private void dtgvClassroom_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                txtSelect = "classroom";
+                int id_class = Convert.ToInt32(dtgvBuilding.Rows[e.RowIndex].Cells[0].Value);
+                //form_Insert_Location = new Form_Insert_Location(id_class, true, txtSelect, this);
+                //form_Insert_Location.ShowDialog();
+            }
         }
     }
 }

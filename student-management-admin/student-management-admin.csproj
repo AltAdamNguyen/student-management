@@ -49,6 +49,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AdminClasses.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Form_Insert_Class.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_Insert_Class.Designer.cs">
+      <DependentUpon>Form_Insert_Class.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form_Insert_Subject.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -76,6 +82,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Form_Insert_Class.resx">
+      <DependentUpon>Form_Insert_Class.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form_Insert_Subject.resx">
       <DependentUpon>Form_Insert_Subject.cs</DependentUpon>
     </EmbeddedResource>
