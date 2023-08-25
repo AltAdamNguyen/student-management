@@ -93,28 +93,28 @@
       <Association Name="Location_Schedule" Member="Location" ThisKey="location_id" OtherKey="id" Type="Location" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Classroom" Member="Classrooms">
-    <Type Name="Classroom">
-      <Column Name="name" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Association Name="Classroom_Location" Member="Locations" ThisKey="id" OtherKey="classroom_id" Type="Location" />
-    </Type>
-  </Table>
   <Table Name="dbo.Location" Member="Locations">
     <Type Name="Location">
       <Column Name="id" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="building_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="classroom_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="building_id" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="classroom_id" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Association Name="Location_Schedule" Member="Schedules" ThisKey="id" OtherKey="location_id" Type="Schedule" />
-      <Association Name="Classroom_Location" Member="Classroom" ThisKey="classroom_id" OtherKey="id" Type="Classroom" IsForeignKey="true" />
       <Association Name="Building_Location" Member="Building" ThisKey="building_id" OtherKey="id" Type="Building" IsForeignKey="true" />
+      <Association Name="Classroom_Location" Member="Classroom" ThisKey="classroom_id" OtherKey="id" Type="Classroom" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Building" Member="Buildings">
     <Type Name="Building">
       <Column Name="name" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="id" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Association Name="Building_Location" Member="Locations" ThisKey="id" OtherKey="building_id" Type="Location" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Classroom" Member="Classrooms">
+    <Type Name="Classroom">
+      <Column Name="name" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="id" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Classroom_Location" Member="Locations" ThisKey="id" OtherKey="classroom_id" Type="Location" />
     </Type>
   </Table>
 </Database>
