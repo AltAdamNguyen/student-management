@@ -47,6 +47,8 @@ namespace student_management_admin
             this.btnAdd = new System.Windows.Forms.Button();
             this.dtgrvData = new System.Windows.Forms.DataGridView();
             this.pnLocation = new System.Windows.Forms.Panel();
+            this.btnAddClass = new System.Windows.Forms.Button();
+            this.btnAddBuild = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -229,6 +231,7 @@ namespace student_management_admin
             this.btnAdd.TabIndex = 10;
             this.btnAdd.Text = "Thêm";
             this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // dtgrvData
             // 
@@ -243,6 +246,8 @@ namespace student_management_admin
             // 
             // pnLocation
             // 
+            this.pnLocation.Controls.Add(this.btnAddClass);
+            this.pnLocation.Controls.Add(this.btnAddBuild);
             this.pnLocation.Controls.Add(this.label4);
             this.pnLocation.Controls.Add(this.label3);
             this.pnLocation.Controls.Add(this.label2);
@@ -252,6 +257,26 @@ namespace student_management_admin
             this.pnLocation.Name = "pnLocation";
             this.pnLocation.Size = new System.Drawing.Size(772, 487);
             this.pnLocation.TabIndex = 3;
+            // 
+            // btnAddClass
+            // 
+            this.btnAddClass.Location = new System.Drawing.Point(432, 63);
+            this.btnAddClass.Name = "btnAddClass";
+            this.btnAddClass.Size = new System.Drawing.Size(75, 23);
+            this.btnAddClass.TabIndex = 8;
+            this.btnAddClass.Text = "Thêm";
+            this.btnAddClass.UseVisualStyleBackColor = true;
+            this.btnAddClass.Click += new System.EventHandler(this.btnAddClass_Click);
+            // 
+            // btnAddBuild
+            // 
+            this.btnAddBuild.Location = new System.Drawing.Point(9, 63);
+            this.btnAddBuild.Name = "btnAddBuild";
+            this.btnAddBuild.Size = new System.Drawing.Size(75, 23);
+            this.btnAddBuild.TabIndex = 7;
+            this.btnAddBuild.Text = "Thêm";
+            this.btnAddBuild.UseVisualStyleBackColor = true;
+            this.btnAddBuild.Click += new System.EventHandler(this.btnAddBuild_Click);
             // 
             // label4
             // 
@@ -286,19 +311,26 @@ namespace student_management_admin
             // dtgvClassroom
             // 
             this.dtgvClassroom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.dtgvClassroom.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dtgvClassroom.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dtgvClassroom.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtgvClassroom.Location = new System.Drawing.Point(432, 92);
             this.dtgvClassroom.Name = "dtgvClassroom";
             this.dtgvClassroom.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dtgvClassroom.Size = new System.Drawing.Size(330, 387);
             this.dtgvClassroom.TabIndex = 1;
+            this.dtgvClassroom.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgvClassroom_CellClick);
             this.dtgvClassroom.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgvClassroom_CellDoubleClick);
             // 
             // dtgvBuilding
             // 
             this.dtgvBuilding.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.dtgvBuilding.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dtgvBuilding.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dtgvBuilding.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dtgvBuilding.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.dtgvBuilding.Location = new System.Drawing.Point(9, 92);
+            this.dtgvBuilding.MultiSelect = false;
             this.dtgvBuilding.Name = "dtgvBuilding";
             this.dtgvBuilding.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dtgvBuilding.Size = new System.Drawing.Size(330, 387);
@@ -311,10 +343,10 @@ namespace student_management_admin
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 511);
-            this.Controls.Add(this.pnLocation);
             this.Controls.Add(this.pnActivity);
             this.Controls.Add(this.lblTitle);
             this.Controls.Add(this.pnlToolBar);
+            this.Controls.Add(this.pnLocation);
             this.Name = "Main_Form_Admin";
             this.Text = "Main_Form_Admin";
             this.Load += new System.EventHandler(this.Main_Form_Admin_Load);
@@ -358,5 +390,7 @@ namespace student_management_admin
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridView dtgvClassroom;
         private System.Windows.Forms.DataGridView dtgvBuilding;
+        private System.Windows.Forms.Button btnAddClass;
+        private System.Windows.Forms.Button btnAddBuild;
     }
 }
