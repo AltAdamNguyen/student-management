@@ -57,6 +57,9 @@ namespace student_management_admin.DAO
     partial void InsertClassroom(Classroom instance);
     partial void UpdateClassroom(Classroom instance);
     partial void DeleteClassroom(Classroom instance);
+    partial void InsertClass_Student(Class_Student instance);
+    partial void UpdateClass_Student(Class_Student instance);
+    partial void DeleteClass_Student(Class_Student instance);
     #endregion
 		
 		public AdminClassesDataContext() : 
@@ -113,14 +116,6 @@ namespace student_management_admin.DAO
 			}
 		}
 		
-		public System.Data.Linq.Table<Class_Student> Class_Students
-		{
-			get
-			{
-				return this.GetTable<Class_Student>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Student> Students
 		{
 			get
@@ -142,14 +137,6 @@ namespace student_management_admin.DAO
 			get
 			{
 				return this.GetTable<Teacher>();
-			}
-		}
-		
-		public System.Data.Linq.Table<Class_Teacher> Class_Teachers
-		{
-			get
-			{
-				return this.GetTable<Class_Teacher>();
 			}
 		}
 		
@@ -182,6 +169,22 @@ namespace student_management_admin.DAO
 			get
 			{
 				return this.GetTable<Classroom>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Class_Teacher> Class_Teachers
+		{
+			get
+			{
+				return this.GetTable<Class_Teacher>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Class_Student> Class_Students
+		{
+			get
+			{
+				return this.GetTable<Class_Student>();
 			}
 		}
 	}
@@ -419,6 +422,8 @@ namespace student_management_admin.DAO
 		
 		private EntitySet<Schedule> _Schedules;
 		
+		private EntitySet<Class_Student> _Class_Students;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -432,6 +437,7 @@ namespace student_management_admin.DAO
 		public Class()
 		{
 			this._Schedules = new EntitySet<Schedule>(new Action<Schedule>(this.attach_Schedules), new Action<Schedule>(this.detach_Schedules));
+			this._Class_Students = new EntitySet<Class_Student>(new Action<Class_Student>(this.attach_Class_Students), new Action<Class_Student>(this.detach_Class_Students));
 			OnCreated();
 		}
 		
@@ -488,6 +494,19 @@ namespace student_management_admin.DAO
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Class_Class_Student", Storage="_Class_Students", ThisKey="id", OtherKey="class_id")]
+		public EntitySet<Class_Student> Class_Students
+		{
+			get
+			{
+				return this._Class_Students;
+			}
+			set
+			{
+				this._Class_Students.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -519,50 +538,17 @@ namespace student_management_admin.DAO
 			this.SendPropertyChanging();
 			entity.Class = null;
 		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Class_Student")]
-	public partial class Class_Student
-	{
 		
-		private string _class_id;
-		
-		private string _student_code;
-		
-		public Class_Student()
+		private void attach_Class_Students(Class_Student entity)
 		{
+			this.SendPropertyChanging();
+			entity.Class = this;
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_class_id", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string class_id
+		private void detach_Class_Students(Class_Student entity)
 		{
-			get
-			{
-				return this._class_id;
-			}
-			set
-			{
-				if ((this._class_id != value))
-				{
-					this._class_id = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_student_code", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string student_code
-		{
-			get
-			{
-				return this._student_code;
-			}
-			set
-			{
-				if ((this._student_code != value))
-				{
-					this._student_code = value;
-				}
-			}
+			this.SendPropertyChanging();
+			entity.Class = null;
 		}
 	}
 	
@@ -586,6 +572,8 @@ namespace student_management_admin.DAO
 		
 		private string _account;
 		
+		private EntitySet<Class_Student> _Class_Students;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -608,6 +596,7 @@ namespace student_management_admin.DAO
 		
 		public Student()
 		{
+			this._Class_Students = new EntitySet<Class_Student>(new Action<Class_Student>(this.attach_Class_Students), new Action<Class_Student>(this.detach_Class_Students));
 			OnCreated();
 		}
 		
@@ -751,6 +740,19 @@ namespace student_management_admin.DAO
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Student_Class_Student", Storage="_Class_Students", ThisKey="code", OtherKey="student_code")]
+		public EntitySet<Class_Student> Class_Students
+		{
+			get
+			{
+				return this._Class_Students;
+			}
+			set
+			{
+				this._Class_Students.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -769,6 +771,18 @@ namespace student_management_admin.DAO
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_Class_Students(Class_Student entity)
+		{
+			this.SendPropertyChanging();
+			entity.Student = this;
+		}
+		
+		private void detach_Class_Students(Class_Student entity)
+		{
+			this.SendPropertyChanging();
+			entity.Student = null;
 		}
 	}
 	
@@ -1141,51 +1155,6 @@ namespace student_management_admin.DAO
 		{
 			this.SendPropertyChanging();
 			entity.Teacher = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Class_Teacher")]
-	public partial class Class_Teacher
-	{
-		
-		private string _class_id;
-		
-		private string _teacher_code;
-		
-		public Class_Teacher()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_class_id", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string class_id
-		{
-			get
-			{
-				return this._class_id;
-			}
-			set
-			{
-				if ((this._class_id != value))
-				{
-					this._class_id = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_teacher_code", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string teacher_code
-		{
-			get
-			{
-				return this._teacher_code;
-			}
-			set
-			{
-				if ((this._teacher_code != value))
-				{
-					this._teacher_code = value;
-				}
-			}
 		}
 	}
 	
@@ -2004,6 +1973,243 @@ namespace student_management_admin.DAO
 		{
 			this.SendPropertyChanging();
 			entity.Classroom = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Class_Teacher")]
+	public partial class Class_Teacher
+	{
+		
+		private string _class_id;
+		
+		private string _teacher_code;
+		
+		public Class_Teacher()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_class_id", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string class_id
+		{
+			get
+			{
+				return this._class_id;
+			}
+			set
+			{
+				if ((this._class_id != value))
+				{
+					this._class_id = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_teacher_code", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string teacher_code
+		{
+			get
+			{
+				return this._teacher_code;
+			}
+			set
+			{
+				if ((this._teacher_code != value))
+				{
+					this._teacher_code = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Class_Student")]
+	public partial class Class_Student : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _class_id;
+		
+		private string _student_code;
+		
+		private string _id;
+		
+		private EntityRef<Class> _Class;
+		
+		private EntityRef<Student> _Student;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void Onclass_idChanging(string value);
+    partial void Onclass_idChanged();
+    partial void Onstudent_codeChanging(string value);
+    partial void Onstudent_codeChanged();
+    partial void OnidChanging(string value);
+    partial void OnidChanged();
+    #endregion
+		
+		public Class_Student()
+		{
+			this._Class = default(EntityRef<Class>);
+			this._Student = default(EntityRef<Student>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_class_id", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string class_id
+		{
+			get
+			{
+				return this._class_id;
+			}
+			set
+			{
+				if ((this._class_id != value))
+				{
+					if (this._Class.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.Onclass_idChanging(value);
+					this.SendPropertyChanging();
+					this._class_id = value;
+					this.SendPropertyChanged("class_id");
+					this.Onclass_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_student_code", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string student_code
+		{
+			get
+			{
+				return this._student_code;
+			}
+			set
+			{
+				if ((this._student_code != value))
+				{
+					if (this._Student.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.Onstudent_codeChanging(value);
+					this.SendPropertyChanging();
+					this._student_code = value;
+					this.SendPropertyChanged("student_code");
+					this.Onstudent_codeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Class_Class_Student", Storage="_Class", ThisKey="class_id", OtherKey="id", IsForeignKey=true)]
+		public Class Class
+		{
+			get
+			{
+				return this._Class.Entity;
+			}
+			set
+			{
+				Class previousValue = this._Class.Entity;
+				if (((previousValue != value) 
+							|| (this._Class.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Class.Entity = null;
+						previousValue.Class_Students.Remove(this);
+					}
+					this._Class.Entity = value;
+					if ((value != null))
+					{
+						value.Class_Students.Add(this);
+						this._class_id = value.id;
+					}
+					else
+					{
+						this._class_id = default(string);
+					}
+					this.SendPropertyChanged("Class");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Student_Class_Student", Storage="_Student", ThisKey="student_code", OtherKey="code", IsForeignKey=true)]
+		public Student Student
+		{
+			get
+			{
+				return this._Student.Entity;
+			}
+			set
+			{
+				Student previousValue = this._Student.Entity;
+				if (((previousValue != value) 
+							|| (this._Student.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Student.Entity = null;
+						previousValue.Class_Students.Remove(this);
+					}
+					this._Student.Entity = value;
+					if ((value != null))
+					{
+						value.Class_Students.Add(this);
+						this._student_code = value.code;
+					}
+					else
+					{
+						this._student_code = default(string);
+					}
+					this.SendPropertyChanged("Student");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 }

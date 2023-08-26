@@ -22,17 +22,9 @@
     <Type Name="Class">
       <Column Name="id" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="name" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
-      <Association Name="Class_Class_Student" Member="Class_Students" ThisKey="id" OtherKey="class_id" Type="Class_Student" />
-      <Association Name="Class_Class_Teacher" Member="Class_Teachers" ThisKey="id" OtherKey="class_id" Type="Class_Teacher" />
       <Association Name="Class_Schedule" Member="Schedules" ThisKey="id" OtherKey="class_id" Type="Schedule" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Class_Student" Member="Class_Students">
-    <Type Name="Class_Student">
-      <Column Name="class_id" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="student_code" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Association Name="Class_Class_Student" Member="Class" ThisKey="class_id" OtherKey="id" Type="Class" IsForeignKey="true" />
-      <Association Name="Student_Class_Student" Member="Student" ThisKey="student_code" OtherKey="code" Type="Student" IsForeignKey="true" />
+      <Association Name="Class_Class_Teacher" Member="Class_Teachers" ThisKey="id" OtherKey="class_id" Type="Class_Teacher" />
+      <Association Name="Class_Class_Student" Member="Class_Students" ThisKey="id" OtherKey="class_id" Type="Class_Student" />
     </Type>
   </Table>
   <Table Name="dbo.Student" Member="Students">
@@ -65,16 +57,8 @@
       <Column Name="name" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
       <Column Name="gender" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="active" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Association Name="Teacher_Class_Teacher" Member="Class_Teachers" ThisKey="code" OtherKey="teacher_code" Type="Class_Teacher" />
       <Association Name="Teacher_Schedule" Member="Schedules" ThisKey="code" OtherKey="teacher_code" Type="Schedule" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Class_Teacher" Member="Class_Teachers">
-    <Type Name="Class_Teacher">
-      <Column Name="class_id" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="teacher_code" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Association Name="Class_Class_Teacher" Member="Class" ThisKey="class_id" OtherKey="id" Type="Class" IsForeignKey="true" />
-      <Association Name="Teacher_Class_Teacher" Member="Teacher" ThisKey="teacher_code" OtherKey="code" Type="Teacher" IsForeignKey="true" />
+      <Association Name="Teacher_Class_Teacher" Member="Class_Teachers" ThisKey="code" OtherKey="teacher_code" Type="Class_Teacher" />
     </Type>
   </Table>
   <Table Name="dbo.Schedule" Member="Schedules">
@@ -115,6 +99,23 @@
       <Column Name="name" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
       <Column Name="id" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Association Name="Classroom_Location" Member="Locations" ThisKey="id" OtherKey="classroom_id" Type="Location" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Class_Teacher" Member="Class_Teachers">
+    <Type Name="Class_Teacher">
+      <Column Name="class_id" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="teacher_code" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Class_Class_Teacher" Member="Class" ThisKey="class_id" OtherKey="id" Type="Class" IsForeignKey="true" />
+      <Association Name="Teacher_Class_Teacher" Member="Teacher" ThisKey="teacher_code" OtherKey="code" Type="Teacher" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Class_Student" Member="Class_Students">
+    <Type Name="Class_Student">
+      <Column Name="class_id" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="student_code" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="id" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Class_Class_Student" Member="Class" ThisKey="class_id" OtherKey="id" Type="Class" IsForeignKey="true" />
+      <Association Name="Student_Class_Student" Member="Student" ThisKey="student_code" OtherKey="code" Type="Student" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>
