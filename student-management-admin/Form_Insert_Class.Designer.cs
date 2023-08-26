@@ -30,6 +30,7 @@ namespace student_management_admin
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.lblStudentCount = new System.Windows.Forms.Label();
             this.lblValidateName = new System.Windows.Forms.Label();
             this.lblValidateCode = new System.Windows.Forms.Label();
             this.btnCancel = new System.Windows.Forms.Button();
@@ -43,7 +44,7 @@ namespace student_management_admin
             this.label8 = new System.Windows.Forms.Label();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.btnSearch = new System.Windows.Forms.Button();
-            this.lblStudentCount = new System.Windows.Forms.Label();
+            this.btnAddStudent = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgvStudent)).BeginInit();
             this.SuspendLayout();
@@ -63,6 +64,15 @@ namespace student_management_admin
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(340, 181);
             this.panel1.TabIndex = 7;
+            // 
+            // lblStudentCount
+            // 
+            this.lblStudentCount.AutoSize = true;
+            this.lblStudentCount.Location = new System.Drawing.Point(13, 105);
+            this.lblStudentCount.Name = "lblStudentCount";
+            this.lblStudentCount.Size = new System.Drawing.Size(106, 13);
+            this.lblStudentCount.TabIndex = 13;
+            this.lblStudentCount.Text = "Số lượng sinh viên: 0";
             // 
             // lblValidateName
             // 
@@ -91,6 +101,7 @@ namespace student_management_admin
             this.btnCancel.TabIndex = 4;
             this.btnCancel.Text = "Huỷ bỏ";
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnAdd
             // 
@@ -147,6 +158,8 @@ namespace student_management_admin
             // 
             // dtgvStudent
             // 
+            this.dtgvStudent.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dtgvStudent.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dtgvStudent.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtgvStudent.Location = new System.Drawing.Point(385, 100);
             this.dtgvStudent.MultiSelect = false;
@@ -183,20 +196,22 @@ namespace student_management_admin
             this.btnSearch.UseVisualStyleBackColor = true;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
-            // lblStudentCount
+            // btnAddStudent
             // 
-            this.lblStudentCount.AutoSize = true;
-            this.lblStudentCount.Location = new System.Drawing.Point(13, 105);
-            this.lblStudentCount.Name = "lblStudentCount";
-            this.lblStudentCount.Size = new System.Drawing.Size(106, 13);
-            this.lblStudentCount.TabIndex = 13;
-            this.lblStudentCount.Text = "Số lượng sinh viên: 0";
+            this.btnAddStudent.Location = new System.Drawing.Point(385, 71);
+            this.btnAddStudent.Name = "btnAddStudent";
+            this.btnAddStudent.Size = new System.Drawing.Size(75, 23);
+            this.btnAddStudent.TabIndex = 12;
+            this.btnAddStudent.Text = "Thêm";
+            this.btnAddStudent.UseVisualStyleBackColor = true;
+            this.btnAddStudent.Visible = false;
             // 
             // Form_Insert_Class
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 411);
+            this.Controls.Add(this.btnAddStudent);
             this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.txtSearch);
             this.Controls.Add(this.label8);
@@ -205,6 +220,7 @@ namespace student_management_admin
             this.Controls.Add(this.lblTitle);
             this.Name = "Form_Insert_Class";
             this.Text = "Form_Insert_Class";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form_Insert_Class_FormClosed);
             this.Load += new System.EventHandler(this.Form_Insert_Class_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -231,5 +247,6 @@ namespace student_management_admin
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.Label lblStudentCount;
+        private System.Windows.Forms.Button btnAddStudent;
     }
 }

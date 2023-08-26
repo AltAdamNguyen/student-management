@@ -243,6 +243,7 @@ namespace student_management_admin
             this.dtgrvData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dtgrvData.Size = new System.Drawing.Size(754, 390);
             this.dtgrvData.TabIndex = 9;
+            this.dtgrvData.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgrvData_CellDoubleClick);
             // 
             // pnLocation
             // 

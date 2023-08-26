@@ -104,6 +104,7 @@ namespace student_management_admin
             this.btnCancel.TabIndex = 4;
             this.btnCancel.Text = "Huỷ bỏ";
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnAdd
             // 

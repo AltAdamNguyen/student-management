@@ -121,5 +121,10 @@ namespace student_management_admin
                 txtDes.Text = subject.descript;
             }
         }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
