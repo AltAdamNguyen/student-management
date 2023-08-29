@@ -42,10 +42,12 @@ namespace student_management_admin
             this.lblName = new System.Windows.Forms.Label();
             this.lblTitle = new System.Windows.Forms.Label();
             this.pnActivity = new System.Windows.Forms.Panel();
+            this.lblTitleTeacher = new System.Windows.Forms.Label();
             this.btnSearch = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.btnAdd = new System.Windows.Forms.Button();
             this.dtgrvData = new System.Windows.Forms.DataGridView();
+            this.cbTeacher = new System.Windows.Forms.ComboBox();
             this.pnLocation = new System.Windows.Forms.Panel();
             this.btnAddClass = new System.Windows.Forms.Button();
             this.btnAddBuild = new System.Windows.Forms.Button();
@@ -54,6 +56,8 @@ namespace student_management_admin
             this.label2 = new System.Windows.Forms.Label();
             this.dtgvClassroom = new System.Windows.Forms.DataGridView();
             this.dtgvBuilding = new System.Windows.Forms.DataGridView();
+            this.cbDateOfWeek = new System.Windows.Forms.ComboBox();
+            this.cbYear = new System.Windows.Forms.ComboBox();
             this.pnlToolBar.SuspendLayout();
             this.panel1.SuspendLayout();
             this.pnActivity.SuspendLayout();
@@ -198,14 +202,28 @@ namespace student_management_admin
             // 
             // pnActivity
             // 
+            this.pnActivity.Controls.Add(this.cbYear);
+            this.pnActivity.Controls.Add(this.cbDateOfWeek);
+            this.pnActivity.Controls.Add(this.lblTitleTeacher);
             this.pnActivity.Controls.Add(this.btnSearch);
             this.pnActivity.Controls.Add(this.txtSearch);
             this.pnActivity.Controls.Add(this.btnAdd);
             this.pnActivity.Controls.Add(this.dtgrvData);
+            this.pnActivity.Controls.Add(this.cbTeacher);
             this.pnActivity.Location = new System.Drawing.Point(207, 64);
             this.pnActivity.Name = "pnActivity";
             this.pnActivity.Size = new System.Drawing.Size(772, 435);
             this.pnActivity.TabIndex = 2;
+            // 
+            // lblTitleTeacher
+            // 
+            this.lblTitleTeacher.AutoSize = true;
+            this.lblTitleTeacher.Location = new System.Drawing.Point(465, 17);
+            this.lblTitleTeacher.Name = "lblTitleTeacher";
+            this.lblTitleTeacher.Size = new System.Drawing.Size(58, 13);
+            this.lblTitleTeacher.TabIndex = 14;
+            this.lblTitleTeacher.Text = "Giảng viên";
+            this.lblTitleTeacher.Visible = false;
             // 
             // btnSearch
             // 
@@ -215,6 +233,7 @@ namespace student_management_admin
             this.btnSearch.TabIndex = 12;
             this.btnSearch.Text = "Tìm kiếm";
             this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // txtSearch
             // 
@@ -244,6 +263,16 @@ namespace student_management_admin
             this.dtgrvData.Size = new System.Drawing.Size(754, 390);
             this.dtgrvData.TabIndex = 9;
             this.dtgrvData.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgrvData_CellDoubleClick);
+            // 
+            // cbTeacher
+            // 
+            this.cbTeacher.FormattingEnabled = true;
+            this.cbTeacher.Location = new System.Drawing.Point(529, 10);
+            this.cbTeacher.Name = "cbTeacher";
+            this.cbTeacher.Size = new System.Drawing.Size(233, 21);
+            this.cbTeacher.TabIndex = 13;
+            this.cbTeacher.Visible = false;
+            this.cbTeacher.SelectedIndexChanged += new System.EventHandler(this.cbTeacher_SelectedIndexChanged);
             // 
             // pnLocation
             // 
@@ -339,6 +368,26 @@ namespace student_management_admin
             this.dtgvBuilding.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgvBuilding_CellClick);
             this.dtgvBuilding.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgvBuilding_CellDoubleClick);
             // 
+            // cbDateOfWeek
+            // 
+            this.cbDateOfWeek.FormattingEnabled = true;
+            this.cbDateOfWeek.Location = new System.Drawing.Point(200, 9);
+            this.cbDateOfWeek.Name = "cbDateOfWeek";
+            this.cbDateOfWeek.Size = new System.Drawing.Size(214, 21);
+            this.cbDateOfWeek.TabIndex = 15;
+            this.cbDateOfWeek.Visible = false;
+            this.cbDateOfWeek.SelectedIndexChanged += new System.EventHandler(this.cbDateOfWeek_SelectedIndexChanged);
+            // 
+            // cbYear
+            // 
+            this.cbYear.FormattingEnabled = true;
+            this.cbYear.Location = new System.Drawing.Point(91, 9);
+            this.cbYear.Name = "cbYear";
+            this.cbYear.Size = new System.Drawing.Size(103, 21);
+            this.cbYear.TabIndex = 16;
+            this.cbYear.Visible = false;
+            this.cbYear.SelectedIndexChanged += new System.EventHandler(this.cbYear_SelectedIndexChanged);
+            // 
             // Main_Form_Admin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -393,5 +442,9 @@ namespace student_management_admin
         private System.Windows.Forms.DataGridView dtgvBuilding;
         private System.Windows.Forms.Button btnAddClass;
         private System.Windows.Forms.Button btnAddBuild;
+        private System.Windows.Forms.Label lblTitleTeacher;
+        private System.Windows.Forms.ComboBox cbTeacher;
+        private System.Windows.Forms.ComboBox cbYear;
+        private System.Windows.Forms.ComboBox cbDateOfWeek;
     }
 }

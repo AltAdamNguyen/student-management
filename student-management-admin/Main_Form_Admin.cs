@@ -1,10 +1,12 @@
 ﻿using student_management_admin.DAO;
 using student_management_admin.Helper;
+using student_management_admin.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -19,6 +21,8 @@ namespace student_management_admin
         Form_Insert_Subject form_Insert_Subject;
         Form_Insert_Class form_Insert_Class;
         Form_Insert_Location form_Insert_Location;
+        Form_Insert_Schedule form_Insert_Schedule;
+
         String txtSelect { get; set; }
         string txtSelectBuilding { get; set; }
 
@@ -34,7 +38,7 @@ namespace student_management_admin
             txtSelect = "student";
             
             lblTitle.Text = "Danh sách sinh viên";
-            hideLocation();
+            showLocation(false);
             dtgrvData.DataSource = db.Students
                 .Select(s => new
                 {
@@ -57,8 +61,11 @@ namespace student_management_admin
         private void btnStudent_Click(object sender, EventArgs e)
         {
             txtSelect = "student";
+            txtSearch.Text = "";
             lblTitle.Text = "Danh sách sinh viên";
-            hideLocation();
+            showLocation(false);
+            showCBTeacher(false);
+            showDateTime(false);
             clearDataGrip();
             dtgrvData.DataSource = db.Students
                 .Select(s => new
@@ -75,8 +82,11 @@ namespace student_management_admin
         private void btnTeacher_Click(object sender, EventArgs e)
         {
             txtSelect = "teacher";
+            txtSearch.Text = "";
             lblTitle.Text = "Danh sách giảng viên";
-            hideLocation();
+            showLocation(false);
+            showCBTeacher(false);
+            showDateTime(false);
             clearDataGrip();
             dtgrvData.DataSource = db.Teachers
                 .Select(s => new
@@ -104,6 +114,10 @@ namespace student_management_admin
             {
                 form_Insert_Class = new Form_Insert_Class(null, false, this);
                 form_Insert_Class.ShowDialog();
+            } else if (txtSelect.Equals("schedule"))
+            {
+                form_Insert_Schedule = new Form_Insert_Schedule();
+                form_Insert_Schedule.ShowDialog();
             }
 
         }
@@ -247,7 +261,8 @@ namespace student_management_admin
                         {
                             Mã_Môn = s.code,
                             Tên = s.name,
-                            Mô_Tả = s.descript
+                            Mô_Tả = s.descript,
+                            Số_Tuần = s.duration
                         });
                     break;
                 case "class":
@@ -273,19 +288,24 @@ namespace student_management_admin
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
-                string code = dtgrvData.Rows[e.RowIndex].Cells[0].Value.ToString();
-                if (txtSelect.Equals("student") || txtSelect.Equals("teacher"))
+                if (!txtSelect.Equals("schedule"))
                 {
-                    form_Insert = new Form_Insert_User(txtSelect, code, true, this);
-                    form_Insert.ShowDialog();
-                } else if (txtSelect.Equals("subject"))
-                {
-                    form_Insert_Subject = new Form_Insert_Subject(code, true, this);
-                    form_Insert_Subject.ShowDialog();
-                } else if (txtSelect.Equals("class"))
-                {
-                    form_Insert_Class = new Form_Insert_Class(code, true, this);
-                    form_Insert_Class.ShowDialog();
+                    string code = dtgrvData.Rows[e.RowIndex].Cells[0].Value.ToString();
+                    if (txtSelect.Equals("student") || txtSelect.Equals("teacher"))
+                    {
+                        form_Insert = new Form_Insert_User(txtSelect, code, true, this);
+                        form_Insert.ShowDialog();
+                    }
+                    else if (txtSelect.Equals("subject"))
+                    {
+                        form_Insert_Subject = new Form_Insert_Subject(code, true, this);
+                        form_Insert_Subject.ShowDialog();
+                    }
+                    else if (txtSelect.Equals("class"))
+                    {
+                        form_Insert_Class = new Form_Insert_Class(code, true, this);
+                        form_Insert_Class.ShowDialog();
+                    }
                 }
             }
         }
@@ -293,28 +313,50 @@ namespace student_management_admin
         private void btnSubject_Click(object sender, EventArgs e)
         {
             txtSelect = "subject";
+            txtSearch.Text = "";
             lblTitle.Text = "Danh sách môn học";
-            hideLocation();
+            showLocation(false);
+            showCBTeacher(false);
+            showDateTime(false);
             clearDataGrip();
             dtgrvData.DataSource = db.Subjects
                 .Select(s => new
                 {
                     Mã_Môn = s.code,
                     Tên = s.name,
-                    Mô_Tả = s.descript
+                    Mô_Tả = s.descript,
+                    Số_Tuần = s.duration
                 });
         }
 
         private void btnSchedule_Click(object sender, EventArgs e)
         {
+            txtSelect = "schedule";
+            showLocation(false);
+            showCBTeacher(true);
+            showDateTime(true);
+
+            cbTeacher.DataSource = db.Teachers
+                .Where(t => t.active == true)
+                .Select(t => new
+                {
+                    Display = t.name + " (" + t.account + ")",
+                    Value = t.code
+                });
+            cbTeacher.DisplayMember = "Display";
+            cbTeacher.ValueMember = "Value";
+
             makeSchedule();
         }
 
         private void btnClass_Click(object sender, EventArgs e)
         {
             txtSelect = "class";
+            txtSearch.Text = "";
             lblTitle.Text = "Danh sách lớp học";
-            hideLocation();
+            showLocation(false);
+            showCBTeacher(false);
+            showDateTime(false);
             clearDataGrip();
             dtgrvData.DataSource = from cls in db.Classes
                         join classStudent in db.Class_Students on cls.id equals classStudent.class_id into studentGroup
@@ -329,21 +371,64 @@ namespace student_management_admin
         private void makeSchedule()
         {
             dtgrvData.DataSource = null;
-            dtgrvData.ColumnCount = 7;
-            dtgrvData.RowCount = 4;
 
-            dtgrvData.Columns[0].HeaderText = "Thứ 2";
-            dtgrvData.Columns[1].HeaderText = "Thứ 3";
-            dtgrvData.Columns[2].HeaderText = "Thứ 4";
-            dtgrvData.Columns[3].HeaderText = "Thứ 5";
-            dtgrvData.Columns[4].HeaderText = "Thứ 6";
-            dtgrvData.Columns[5].HeaderText = "Thứ 7";
-            dtgrvData.Columns[6].HeaderText = "Chủ nhật";
+            DateTime startDate;
+            if (cbDateOfWeek.SelectedValue != null)
+            {
+                try
+                {
+                    startDate = (DateTime)cbDateOfWeek.SelectedValue;
+                }
+                catch (Exception _)
+                {
+                    WeekItem week = (WeekItem)cbDateOfWeek.SelectedValue;
+                    startDate = week.startDate;
+                }
+            } else
+            {
+                DateTime selectedDate = DateTime.Now;
+                if ((int)selectedDate.DayOfWeek != 1)
+                {
+                    startDate = selectedDate;
+                }
+                else
+                {
+                    startDate = selectedDate.AddDays(-(int)selectedDate.DayOfWeek);
+                }
+            }
 
-            dtgrvData.Rows[0].HeaderCell.Value = "Ca 1";
-            dtgrvData.Rows[1].HeaderCell.Value = "Ca 2";
-            dtgrvData.Rows[2].HeaderCell.Value = "Ca 3";
-            dtgrvData.Rows[3].HeaderCell.Value = "Ca 4";
+            DateTime endDate = startDate.AddDays(6);
+
+            dtgrvData.Columns.Clear();
+            dtgrvData.Rows.Clear();
+            dtgrvData.AutoGenerateColumns = false;
+
+            for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
+            {
+                dtgrvData.Columns.Add(date.ToShortDateString(), date.ToShortDateString());
+            }
+
+            var teacherSchedule = db.Schedules
+                .Where(s => s.teacher_code.Equals(cbTeacher.SelectedValue) && s.date_time >= startDate && s.date_time <= endDate)
+                .ToList();
+
+            string[] slots = { "Ca 1", "Ca 2", "Ca 3", "Ca 4" };
+            dtgrvData.RowCount = 5;
+
+            foreach (var slot in slots)
+            {
+                int slotss = Array.IndexOf(slots, slot) + 1;
+                dtgrvData.Rows[slotss - 1].HeaderCell.Value = slot;
+
+                foreach (DateTime date in Enumerable.Range(0, 7).Select(i => startDate.AddDays(i)))
+                {
+                    int dayOfWeekIndex = (int)date.DayOfWeek - 1; 
+                    var schedule = teacherSchedule.FirstOrDefault(s => s.date_time.Date == date.Date && s.slot == slotss);
+                    if (schedule != null)
+                        dtgrvData.Rows[slotss - 1].Cells[dayOfWeekIndex].Value = schedule.class_id.ToString();
+                }
+            }
+
         }
 
         private void clearDataGrip()
@@ -353,25 +438,60 @@ namespace student_management_admin
             dtgrvData.Rows.Clear();
         }
 
+        private void showDateTime(bool isShow)
+        {
+            if (isShow)
+            {
+                cbYear.Visible = true;
+                cbDateOfWeek.Visible = true;
+            }
+            else
+            {
+                cbYear.Visible = false;
+                cbDateOfWeek.Visible = false;
+            }
+        }
+
         private void btnLocation_Click(object sender, EventArgs e)
         {
-            showLocation();
+            showLocation(true);
+            showDateTime(false);
             makeDataLocation("building");
 
         }
 
-        private void showLocation()
+        private void showLocation(bool isShow)
         {
-            pnActivity.Hide();
-            pnLocation.Show();
-            pnLocation.BringToFront();
+            if (isShow)
+            {
+                pnActivity.Hide();
+                pnLocation.Show();
+                pnLocation.BringToFront();
+            }
+            else
+            {
+                pnActivity.Show();
+                pnLocation.Hide();
+                pnActivity.BringToFront();
+            }
         }
 
-        private void hideLocation()
+        private void showCBTeacher(bool isShow)
         {
-            pnActivity.Show();
-            pnLocation.Hide();
-            pnActivity.BringToFront();
+            if (isShow)
+            {
+                txtSearch.Visible = false;
+                btnSearch.Visible = false;
+                lblTitleTeacher.Visible = true;
+                cbTeacher.Visible = true;
+            }
+            else
+            {
+                txtSearch.Visible = true;
+                btnSearch.Visible = true;
+                lblTitleTeacher.Visible = false;
+                cbTeacher.Visible = false;
+            }
         }
 
         private void dtgvBuilding_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -384,6 +504,72 @@ namespace student_management_admin
                 btnAddClass.Enabled = true;
                 makeDataLocation("classroom");
             }
+        }
+
+        private void makeDateWeekOfYear()
+        {
+            DateTime currentDate = DateTime.Now;
+            int selectYear = Convert.ToInt32(cbYear.SelectedItem);  
+            int currentWeek;
+            if (selectYear == currentDate.Year)
+            {
+                currentWeek = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(currentDate, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+            }
+            else
+            {
+                currentWeek = 1;
+            }
+            List<WeekItem> weekItems = new List<WeekItem>();
+
+            for (int week = 1; week <= 52; week++)
+            {
+                DateTime startDate = getStartDateOfWeek(selectYear, week);
+                DateTime endDate = startDate.AddDays(6);
+
+                string weekText = $"Tuần {week} ({startDate.ToString("dd/MM/yyyy")} - {endDate.ToString("dd/MM/yyyy")})";
+                weekItems.Add(new WeekItem
+                {
+                    weekText = weekText,
+                    startDate = startDate
+                });
+            }
+
+            cbDateOfWeek.DataSource = weekItems;
+            cbDateOfWeek.DisplayMember = "weekText";
+            cbDateOfWeek.ValueMember = "startDate";
+            cbDateOfWeek.SelectedIndex = currentWeek - 1;
+        }
+
+        private void makeYear()
+        {
+            int currentYear = DateTime.Now.Year;
+            for (int year = currentYear - 10; year <= currentYear + 10; year++)
+            {
+                cbYear.Items.Add(year.ToString());
+            }
+
+            cbYear.SelectedItem = currentYear.ToString();
+        }
+
+        private DateTime getStartDateOfWeek(int year, int weekNumber)
+        {
+            int getYear;
+            if (year != 0)
+                getYear = year;
+            else
+                getYear = DateTime.Now.Year;
+            DateTime jan1 = new DateTime(getYear, 1, 1);
+            int daysOffset = (int)DayOfWeek.Monday - (int)jan1.DayOfWeek + 7;
+
+            DateTime firstMonday = jan1.AddDays(daysOffset);
+            int firstWeek = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(firstMonday, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+
+            if (firstWeek <= 1)
+            {
+                weekNumber -= 1;
+            }
+
+            return firstMonday.AddDays(7 * (weekNumber - 1));
         }
 
         private void makeDataLocation(string select)
@@ -427,66 +613,13 @@ namespace student_management_admin
                     dtgvClassroom.DataSource = table;
                     break;
             }
-
-
-        }
-
-        private void Table_RowChanged(object sender, DataRowChangeEventArgs e)
-        {
-            string id, name;
-            if (e.Action == DataRowAction.Add)
-            {
-                switch (txtSelect)
-                {
-                    case "building":
-                        id = e.Row["Mã toà nhà"].ToString();
-                        name = e.Row["Tên toà nhà"].ToString();
-                        var resultBuild = db.Buildings.SingleOrDefault(b => b.id.Equals(id));
-                        if (resultBuild == null)
-                        {
-                            Building building = new Building();
-                            building.id = id;
-                            building.name = name;
-                            db.Buildings.InsertOnSubmit(building);
-                        } else
-                        {
-                            MessageBox.Show("Toà nhà đã tồn tại");
-                        }
-
-                        break;
-                    case "classroom":
-                        id = e.Row["Mã phòng học"].ToString();
-                        name = e.Row["Tên phòng học"].ToString();
-                        var resultClass = db.Locations.SingleOrDefault(l => l.building_id.Equals(txtSelectBuilding) && l.classroom_id.Equals(txtSelectBuilding + "_" + id));
-                        if (resultClass == null)
-                        {
-                            Classroom classroom = new Classroom();
-                            classroom.id = txtSelectBuilding + "_" + id;
-                            classroom.name = name;
-                            db.Classrooms.InsertOnSubmit(classroom);
-                        } else
-                        {
-                            MessageBox.Show("Phòng học trong toà nhà " + txtSelectBuilding + " đã tồn tại");
-                        }
-                        break;
-                }  
-            } else if (e.Action == DataRowAction.Change)
-            {
-                switch (txtSelect)
-                {
-                    case "building":
-                        break;
-                    case "classroom":
-                        break;
-                }
-            }
-            db.SubmitChanges();
-            
         }
 
         private void Main_Form_Admin_Load(object sender, EventArgs e)
         {
             btnAddClass.Enabled = false;
+            makeYear();
+            makeDateWeekOfYear();
         }
 
         private void dtgvClassroom_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -528,6 +661,22 @@ namespace student_management_admin
                 form_Insert_Location = new Form_Insert_Location(txtSelectBuilding, id, true, txtSelect, this);
                 form_Insert_Location.ShowDialog();
             }
+        }
+
+        private void cbYear_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            makeDateWeekOfYear();
+            makeSchedule();
+        }
+
+        private void cbDateOfWeek_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            makeSchedule();
+        }
+
+        private void cbTeacher_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            makeSchedule();
         }
     }
 }
