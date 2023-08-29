@@ -30,6 +30,7 @@ namespace student_management_admin
             string code = txtCode.Text;
             string name = txtName.Text;
             string des = txtDes.Text;
+            int week = Convert.ToInt32(cbDuration.SelectedValue.ToString());
 
             if (string.IsNullOrEmpty(code))
             {
@@ -66,7 +67,7 @@ namespace student_management_admin
                         subject.code = code;
                         subject.name = name;
                         subject.descript = des;
-
+                        subject.duration = week;
                         db.Subjects.InsertOnSubmit(subject);
 
                     }
@@ -113,12 +114,18 @@ namespace student_management_admin
                 lblTitle.Text = "Cập nhật thông tin môn học";
                 btnAdd.Text = "Cập nhật";
                 txtCode.ReadOnly = true;
+                cbDuration.Enabled = false;
                 txtName.Focus();
 
                 Subject subject = db.Subjects.SingleOrDefault(s => s.code.Equals(txtSubCode));
                 txtCode.Text = subject.code;
                 txtName.Text = subject.name;
                 txtDes.Text = subject.descript;
+                cbDuration.SelectedIndex = subject.duration - 1;
+            }
+            else
+            {
+                cbDuration.SelectedIndex = 0;
             }
         }
 
