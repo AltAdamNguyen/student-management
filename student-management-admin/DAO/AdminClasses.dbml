@@ -9,15 +9,6 @@
       <Column Name="active" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
-  <Table Name="dbo.Attendance" Member="Attendances">
-    <Type Name="Attendance">
-      <Column Name="schedule_id" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="student_code" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="attended" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Association Name="Student_Attendance" Member="Student" ThisKey="student_code" OtherKey="code" Type="Student" IsForeignKey="true" />
-      <Association Name="Schedule_Attendance" Member="Schedule" ThisKey="schedule_id" OtherKey="id" Type="Schedule" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.Class" Member="Classes">
     <Type Name="Class">
       <Column Name="id" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -36,16 +27,8 @@
       <Column Name="gender" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="active" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="account" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Association Name="Student_Attendance" Member="Attendances" ThisKey="code" OtherKey="student_code" Type="Attendance" />
       <Association Name="Student_Class_Student" Member="Class_Students" ThisKey="code" OtherKey="student_code" Type="Class_Student" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Subject" Member="Subjects">
-    <Type Name="Subject">
-      <Column Name="code" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="name" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
-      <Column Name="descript" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Association Name="Subject_Schedule" Member="Schedules" ThisKey="code" OtherKey="subject_code" Type="Schedule" />
+      <Association Name="Student_Attendance" Member="Attendances" ThisKey="code" OtherKey="student_code" Type="Attendance" />
     </Type>
   </Table>
   <Table Name="dbo.Teacher" Member="Teachers">
@@ -72,9 +55,9 @@
       <Column Name="location_id" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Association Name="Schedule_Attendance" Member="Attendances" ThisKey="id" OtherKey="schedule_id" Type="Attendance" />
       <Association Name="Class_Schedule" Member="Class" ThisKey="class_id" OtherKey="id" Type="Class" IsForeignKey="true" />
-      <Association Name="Subject_Schedule" Member="Subject" ThisKey="subject_code" OtherKey="code" Type="Subject" IsForeignKey="true" />
       <Association Name="Teacher_Schedule" Member="Teacher" ThisKey="teacher_code" OtherKey="code" Type="Teacher" IsForeignKey="true" />
       <Association Name="Location_Schedule" Member="Location" ThisKey="location_id" OtherKey="id" Type="Location" IsForeignKey="true" />
+      <Association Name="Subject_Schedule" Member="Subject" ThisKey="subject_code" OtherKey="code" Type="Subject" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Location" Member="Locations">
@@ -116,6 +99,25 @@
       <Column Name="id" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Association Name="Class_Class_Student" Member="Class" ThisKey="class_id" OtherKey="id" Type="Class" IsForeignKey="true" />
       <Association Name="Student_Class_Student" Member="Student" ThisKey="student_code" OtherKey="code" Type="Student" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Subject" Member="Subjects">
+    <Type Name="Subject">
+      <Column Name="code" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="descript" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="duration" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Subject_Schedule" Member="Schedules" ThisKey="code" OtherKey="subject_code" Type="Schedule" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Attendance" Member="Attendances">
+    <Type Name="Attendance">
+      <Column Name="schedule_id" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="student_code" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="attended" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="id" Type="System.String" DbType="NVarChar(100) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Schedule_Attendance" Member="Schedule" ThisKey="schedule_id" OtherKey="id" Type="Schedule" IsForeignKey="true" />
+      <Association Name="Student_Attendance" Member="Student" ThisKey="student_code" OtherKey="code" Type="Student" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

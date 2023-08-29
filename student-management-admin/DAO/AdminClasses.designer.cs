@@ -39,9 +39,6 @@ namespace student_management_admin.DAO
     partial void InsertStudent(Student instance);
     partial void UpdateStudent(Student instance);
     partial void DeleteStudent(Student instance);
-    partial void InsertSubject(Subject instance);
-    partial void UpdateSubject(Subject instance);
-    partial void DeleteSubject(Subject instance);
     partial void InsertTeacher(Teacher instance);
     partial void UpdateTeacher(Teacher instance);
     partial void DeleteTeacher(Teacher instance);
@@ -60,6 +57,12 @@ namespace student_management_admin.DAO
     partial void InsertClass_Student(Class_Student instance);
     partial void UpdateClass_Student(Class_Student instance);
     partial void DeleteClass_Student(Class_Student instance);
+    partial void InsertSubject(Subject instance);
+    partial void UpdateSubject(Subject instance);
+    partial void DeleteSubject(Subject instance);
+    partial void InsertAttendance(Attendance instance);
+    partial void UpdateAttendance(Attendance instance);
+    partial void DeleteAttendance(Attendance instance);
     #endregion
 		
 		public AdminClassesDataContext() : 
@@ -100,14 +103,6 @@ namespace student_management_admin.DAO
 			}
 		}
 		
-		public System.Data.Linq.Table<Attendance> Attendances
-		{
-			get
-			{
-				return this.GetTable<Attendance>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Class> Classes
 		{
 			get
@@ -121,14 +116,6 @@ namespace student_management_admin.DAO
 			get
 			{
 				return this.GetTable<Student>();
-			}
-		}
-		
-		public System.Data.Linq.Table<Subject> Subjects
-		{
-			get
-			{
-				return this.GetTable<Subject>();
 			}
 		}
 		
@@ -185,6 +172,22 @@ namespace student_management_admin.DAO
 			get
 			{
 				return this.GetTable<Class_Student>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Subject> Subjects
+		{
+			get
+			{
+				return this.GetTable<Subject>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Attendance> Attendances
+		{
+			get
+			{
+				return this.GetTable<Attendance>();
 			}
 		}
 	}
@@ -343,69 +346,6 @@ namespace student_management_admin.DAO
 			if ((this.PropertyChanged != null))
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Attendance")]
-	public partial class Attendance
-	{
-		
-		private string _schedule_id;
-		
-		private string _student_code;
-		
-		private bool _attended;
-		
-		public Attendance()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_schedule_id", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string schedule_id
-		{
-			get
-			{
-				return this._schedule_id;
-			}
-			set
-			{
-				if ((this._schedule_id != value))
-				{
-					this._schedule_id = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_student_code", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string student_code
-		{
-			get
-			{
-				return this._student_code;
-			}
-			set
-			{
-				if ((this._student_code != value))
-				{
-					this._student_code = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_attended", DbType="Bit NOT NULL")]
-		public bool attended
-		{
-			get
-			{
-				return this._attended;
-			}
-			set
-			{
-				if ((this._attended != value))
-				{
-					this._attended = value;
-				}
 			}
 		}
 	}
@@ -574,6 +514,8 @@ namespace student_management_admin.DAO
 		
 		private EntitySet<Class_Student> _Class_Students;
 		
+		private EntitySet<Attendance> _Attendances;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -597,6 +539,7 @@ namespace student_management_admin.DAO
 		public Student()
 		{
 			this._Class_Students = new EntitySet<Class_Student>(new Action<Class_Student>(this.attach_Class_Students), new Action<Class_Student>(this.detach_Class_Students));
+			this._Attendances = new EntitySet<Attendance>(new Action<Attendance>(this.attach_Attendances), new Action<Attendance>(this.detach_Attendances));
 			OnCreated();
 		}
 		
@@ -753,6 +696,19 @@ namespace student_management_admin.DAO
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Student_Attendance", Storage="_Attendances", ThisKey="code", OtherKey="student_code")]
+		public EntitySet<Attendance> Attendances
+		{
+			get
+			{
+				return this._Attendances;
+			}
+			set
+			{
+				this._Attendances.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -784,143 +740,17 @@ namespace student_management_admin.DAO
 			this.SendPropertyChanging();
 			entity.Student = null;
 		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Subject")]
-	public partial class Subject : INotifyPropertyChanging, INotifyPropertyChanged
-	{
 		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _code;
-		
-		private string _name;
-		
-		private string _descript;
-		
-		private EntitySet<Schedule> _Schedules;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OncodeChanging(string value);
-    partial void OncodeChanged();
-    partial void OnnameChanging(string value);
-    partial void OnnameChanged();
-    partial void OndescriptChanging(string value);
-    partial void OndescriptChanged();
-    #endregion
-		
-		public Subject()
-		{
-			this._Schedules = new EntitySet<Schedule>(new Action<Schedule>(this.attach_Schedules), new Action<Schedule>(this.detach_Schedules));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_code", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string code
-		{
-			get
-			{
-				return this._code;
-			}
-			set
-			{
-				if ((this._code != value))
-				{
-					this.OncodeChanging(value);
-					this.SendPropertyChanging();
-					this._code = value;
-					this.SendPropertyChanged("code");
-					this.OncodeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
-		public string name
-		{
-			get
-			{
-				return this._name;
-			}
-			set
-			{
-				if ((this._name != value))
-				{
-					this.OnnameChanging(value);
-					this.SendPropertyChanging();
-					this._name = value;
-					this.SendPropertyChanged("name");
-					this.OnnameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_descript", DbType="NVarChar(MAX)")]
-		public string descript
-		{
-			get
-			{
-				return this._descript;
-			}
-			set
-			{
-				if ((this._descript != value))
-				{
-					this.OndescriptChanging(value);
-					this.SendPropertyChanging();
-					this._descript = value;
-					this.SendPropertyChanged("descript");
-					this.OndescriptChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Subject_Schedule", Storage="_Schedules", ThisKey="code", OtherKey="subject_code")]
-		public EntitySet<Schedule> Schedules
-		{
-			get
-			{
-				return this._Schedules;
-			}
-			set
-			{
-				this._Schedules.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Schedules(Schedule entity)
+		private void attach_Attendances(Attendance entity)
 		{
 			this.SendPropertyChanging();
-			entity.Subject = this;
+			entity.Student = this;
 		}
 		
-		private void detach_Schedules(Schedule entity)
+		private void detach_Attendances(Attendance entity)
 		{
 			this.SendPropertyChanging();
-			entity.Subject = null;
+			entity.Student = null;
 		}
 	}
 	
@@ -1178,13 +1008,15 @@ namespace student_management_admin.DAO
 		
 		private string _location_id;
 		
-		private EntityRef<Class> _Class;
+		private EntitySet<Attendance> _Attendances;
 		
-		private EntityRef<Subject> _Subject;
+		private EntityRef<Class> _Class;
 		
 		private EntityRef<Teacher> _Teacher;
 		
 		private EntityRef<Location> _Location;
+		
+		private EntityRef<Subject> _Subject;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1208,10 +1040,11 @@ namespace student_management_admin.DAO
 		
 		public Schedule()
 		{
+			this._Attendances = new EntitySet<Attendance>(new Action<Attendance>(this.attach_Attendances), new Action<Attendance>(this.detach_Attendances));
 			this._Class = default(EntityRef<Class>);
-			this._Subject = default(EntityRef<Subject>);
 			this._Teacher = default(EntityRef<Teacher>);
 			this._Location = default(EntityRef<Location>);
+			this._Subject = default(EntityRef<Subject>);
 			OnCreated();
 		}
 		
@@ -1371,6 +1204,19 @@ namespace student_management_admin.DAO
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Schedule_Attendance", Storage="_Attendances", ThisKey="id", OtherKey="schedule_id")]
+		public EntitySet<Attendance> Attendances
+		{
+			get
+			{
+				return this._Attendances;
+			}
+			set
+			{
+				this._Attendances.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Class_Schedule", Storage="_Class", ThisKey="class_id", OtherKey="id", IsForeignKey=true)]
 		public Class Class
 		{
@@ -1401,40 +1247,6 @@ namespace student_management_admin.DAO
 						this._class_id = default(string);
 					}
 					this.SendPropertyChanged("Class");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Subject_Schedule", Storage="_Subject", ThisKey="subject_code", OtherKey="code", IsForeignKey=true)]
-		public Subject Subject
-		{
-			get
-			{
-				return this._Subject.Entity;
-			}
-			set
-			{
-				Subject previousValue = this._Subject.Entity;
-				if (((previousValue != value) 
-							|| (this._Subject.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Subject.Entity = null;
-						previousValue.Schedules.Remove(this);
-					}
-					this._Subject.Entity = value;
-					if ((value != null))
-					{
-						value.Schedules.Add(this);
-						this._subject_code = value.code;
-					}
-					else
-					{
-						this._subject_code = default(string);
-					}
-					this.SendPropertyChanged("Subject");
 				}
 			}
 		}
@@ -1507,6 +1319,40 @@ namespace student_management_admin.DAO
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Subject_Schedule", Storage="_Subject", ThisKey="subject_code", OtherKey="code", IsForeignKey=true)]
+		public Subject Subject
+		{
+			get
+			{
+				return this._Subject.Entity;
+			}
+			set
+			{
+				Subject previousValue = this._Subject.Entity;
+				if (((previousValue != value) 
+							|| (this._Subject.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Subject.Entity = null;
+						previousValue.Schedules.Remove(this);
+					}
+					this._Subject.Entity = value;
+					if ((value != null))
+					{
+						value.Schedules.Add(this);
+						this._subject_code = value.code;
+					}
+					else
+					{
+						this._subject_code = default(string);
+					}
+					this.SendPropertyChanged("Subject");
+				}
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -1525,6 +1371,18 @@ namespace student_management_admin.DAO
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_Attendances(Attendance entity)
+		{
+			this.SendPropertyChanging();
+			entity.Schedule = this;
+		}
+		
+		private void detach_Attendances(Attendance entity)
+		{
+			this.SendPropertyChanging();
+			entity.Schedule = null;
 		}
 	}
 	
@@ -2181,6 +2039,384 @@ namespace student_management_admin.DAO
 					if ((value != null))
 					{
 						value.Class_Students.Add(this);
+						this._student_code = value.code;
+					}
+					else
+					{
+						this._student_code = default(string);
+					}
+					this.SendPropertyChanged("Student");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Subject")]
+	public partial class Subject : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _code;
+		
+		private string _name;
+		
+		private string _descript;
+		
+		private int _duration;
+		
+		private EntitySet<Schedule> _Schedules;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OncodeChanging(string value);
+    partial void OncodeChanged();
+    partial void OnnameChanging(string value);
+    partial void OnnameChanged();
+    partial void OndescriptChanging(string value);
+    partial void OndescriptChanged();
+    partial void OndurationChanging(int value);
+    partial void OndurationChanged();
+    #endregion
+		
+		public Subject()
+		{
+			this._Schedules = new EntitySet<Schedule>(new Action<Schedule>(this.attach_Schedules), new Action<Schedule>(this.detach_Schedules));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_code", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string code
+		{
+			get
+			{
+				return this._code;
+			}
+			set
+			{
+				if ((this._code != value))
+				{
+					this.OncodeChanging(value);
+					this.SendPropertyChanging();
+					this._code = value;
+					this.SendPropertyChanged("code");
+					this.OncodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string name
+		{
+			get
+			{
+				return this._name;
+			}
+			set
+			{
+				if ((this._name != value))
+				{
+					this.OnnameChanging(value);
+					this.SendPropertyChanging();
+					this._name = value;
+					this.SendPropertyChanged("name");
+					this.OnnameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_descript", DbType="NVarChar(MAX)")]
+		public string descript
+		{
+			get
+			{
+				return this._descript;
+			}
+			set
+			{
+				if ((this._descript != value))
+				{
+					this.OndescriptChanging(value);
+					this.SendPropertyChanging();
+					this._descript = value;
+					this.SendPropertyChanged("descript");
+					this.OndescriptChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_duration", DbType="Int NOT NULL")]
+		public int duration
+		{
+			get
+			{
+				return this._duration;
+			}
+			set
+			{
+				if ((this._duration != value))
+				{
+					this.OndurationChanging(value);
+					this.SendPropertyChanging();
+					this._duration = value;
+					this.SendPropertyChanged("duration");
+					this.OndurationChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Subject_Schedule", Storage="_Schedules", ThisKey="code", OtherKey="subject_code")]
+		public EntitySet<Schedule> Schedules
+		{
+			get
+			{
+				return this._Schedules;
+			}
+			set
+			{
+				this._Schedules.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Schedules(Schedule entity)
+		{
+			this.SendPropertyChanging();
+			entity.Subject = this;
+		}
+		
+		private void detach_Schedules(Schedule entity)
+		{
+			this.SendPropertyChanging();
+			entity.Subject = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Attendance")]
+	public partial class Attendance : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _schedule_id;
+		
+		private string _student_code;
+		
+		private int _attended;
+		
+		private string _id;
+		
+		private EntityRef<Schedule> _Schedule;
+		
+		private EntityRef<Student> _Student;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void Onschedule_idChanging(string value);
+    partial void Onschedule_idChanged();
+    partial void Onstudent_codeChanging(string value);
+    partial void Onstudent_codeChanged();
+    partial void OnattendedChanging(int value);
+    partial void OnattendedChanged();
+    partial void OnidChanging(string value);
+    partial void OnidChanged();
+    #endregion
+		
+		public Attendance()
+		{
+			this._Schedule = default(EntityRef<Schedule>);
+			this._Student = default(EntityRef<Student>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_schedule_id", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string schedule_id
+		{
+			get
+			{
+				return this._schedule_id;
+			}
+			set
+			{
+				if ((this._schedule_id != value))
+				{
+					if (this._Schedule.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.Onschedule_idChanging(value);
+					this.SendPropertyChanging();
+					this._schedule_id = value;
+					this.SendPropertyChanged("schedule_id");
+					this.Onschedule_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_student_code", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string student_code
+		{
+			get
+			{
+				return this._student_code;
+			}
+			set
+			{
+				if ((this._student_code != value))
+				{
+					if (this._Student.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.Onstudent_codeChanging(value);
+					this.SendPropertyChanging();
+					this._student_code = value;
+					this.SendPropertyChanged("student_code");
+					this.Onstudent_codeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_attended", DbType="Int NOT NULL")]
+		public int attended
+		{
+			get
+			{
+				return this._attended;
+			}
+			set
+			{
+				if ((this._attended != value))
+				{
+					this.OnattendedChanging(value);
+					this.SendPropertyChanging();
+					this._attended = value;
+					this.SendPropertyChanged("attended");
+					this.OnattendedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="NVarChar(100) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Schedule_Attendance", Storage="_Schedule", ThisKey="schedule_id", OtherKey="id", IsForeignKey=true)]
+		public Schedule Schedule
+		{
+			get
+			{
+				return this._Schedule.Entity;
+			}
+			set
+			{
+				Schedule previousValue = this._Schedule.Entity;
+				if (((previousValue != value) 
+							|| (this._Schedule.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Schedule.Entity = null;
+						previousValue.Attendances.Remove(this);
+					}
+					this._Schedule.Entity = value;
+					if ((value != null))
+					{
+						value.Attendances.Add(this);
+						this._schedule_id = value.id;
+					}
+					else
+					{
+						this._schedule_id = default(string);
+					}
+					this.SendPropertyChanged("Schedule");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Student_Attendance", Storage="_Student", ThisKey="student_code", OtherKey="code", IsForeignKey=true)]
+		public Student Student
+		{
+			get
+			{
+				return this._Student.Entity;
+			}
+			set
+			{
+				Student previousValue = this._Student.Entity;
+				if (((previousValue != value) 
+							|| (this._Student.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Student.Entity = null;
+						previousValue.Attendances.Remove(this);
+					}
+					this._Student.Entity = value;
+					if ((value != null))
+					{
+						value.Attendances.Add(this);
 						this._student_code = value.code;
 					}
 					else
