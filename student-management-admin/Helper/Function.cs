@@ -76,5 +76,13 @@ namespace student_management_admin.Helper
 
             "ÝỲỴỶỸ"
         };
+
+        public static string convertToDateOfWeek(DateTime date)
+        {
+            CultureInfo vietnameseCulture = new CultureInfo("vi-VN");
+            string dayOfWeekVietnamese = vietnameseCulture.DateTimeFormat.GetDayName(date.DayOfWeek);
+
+            return dayOfWeekVietnamese;
+        }
     }
 }
