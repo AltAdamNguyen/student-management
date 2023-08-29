@@ -93,7 +93,7 @@ namespace student_management_admin
                             }
                         } else
                         {
-
+                            MessageBox.Show("Toà nhà đã tồn tại");
                         }
                         break;
                     case "classroom":
