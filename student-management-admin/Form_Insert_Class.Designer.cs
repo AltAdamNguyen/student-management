@@ -205,6 +205,7 @@ namespace student_management_admin
             this.btnAddStudent.Text = "Thêm";
             this.btnAddStudent.UseVisualStyleBackColor = true;
             this.btnAddStudent.Visible = false;
+            this.btnAddStudent.Click += new System.EventHandler(this.btnAddStudent_Click);
             // 
             // Form_Insert_Class
             // 

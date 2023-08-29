@@ -238,5 +238,10 @@ namespace student_management_admin
         {
             main_Form.DataGridViewRefresh();
         }
+
+        private void btnAddStudent_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
