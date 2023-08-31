@@ -167,7 +167,7 @@ namespace student_management_admin
             this.dtgvStudent.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dtgvStudent.Size = new System.Drawing.Size(387, 284);
             this.dtgvStudent.TabIndex = 8;
-            this.dtgvStudent.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgvStudent_CellClick);
+            this.dtgvStudent.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgvStudent_CellContentClick);
             // 
             // label8
             // 

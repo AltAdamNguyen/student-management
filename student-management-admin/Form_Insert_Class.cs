@@ -205,7 +205,22 @@ namespace student_management_admin
             dtgvStudent.DataSource = table;
         }
 
-        private void dtgvStudent_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void Form_Insert_Class_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            main_Form.DataGridViewRefresh();
+        }
+
+        private void btnAddStudent_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dtgvStudent_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
@@ -227,21 +242,6 @@ namespace student_management_admin
                     lblStudentCount.Text = "Số lượng sinh viên: " + listStudent.Count;
                 }
             }
-        }
-
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void Form_Insert_Class_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            main_Form.DataGridViewRefresh();
-        }
-
-        private void btnAddStudent_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

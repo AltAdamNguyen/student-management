@@ -428,7 +428,6 @@ namespace student_management_admin
                         dtgrvData.Rows[slotss - 1].Cells[dayOfWeekIndex].Value = schedule.class_id.ToString();
                 }
             }
-
         }
 
         private void clearDataGrip()
