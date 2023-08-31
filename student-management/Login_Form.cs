@@ -22,7 +22,7 @@ namespace student_management
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            string email = txtEmail.Text;
+            string email = txtEmail.Text.Trim().ToLower();
             string rawPass = txtPassword.Text;
             if (string.IsNullOrEmpty(email))
             {
@@ -53,7 +53,7 @@ namespace student_management
                 if (rBtnTeacher.Checked)
                 {
                     var result = db.Teachers
-                        .Where(teacher => teacher.email.Equals(email) && teacher.password.Equals(rawPass) && teacher.active == true)
+                        .Where(teacher => (teacher.email.Equals(email) || teacher.account.Equals(email)) && teacher.password.Equals(rawPass) && teacher.active == true)
                         .FirstOrDefault();
 
                     if (result == null)
@@ -63,13 +63,13 @@ namespace student_management
                     else
                     {
                         this.Hide();
-                        //Main_Form_Student mainForm = new Main_Form_Student();
-                        //mainForm.Show();
+                        Main_Form_Teacher mainForm = new Main_Form_Teacher(result);
+                        mainForm.Show();
                     }
                 } else
                 {
                     var result = db.Students
-                        .Where(student => (student.email.Equals(email) || student.account.ToLower().Equals(email)) && student.password.Equals(rawPass))
+                        .Where(student => (student.email.Equals(email) || student.account.Equals(email)) && student.password.Equals(rawPass) && student.active == true)
                         .FirstOrDefault();
 
                     if (result == null)

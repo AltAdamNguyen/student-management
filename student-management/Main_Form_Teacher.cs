@@ -16,12 +16,12 @@ namespace student_management
     {
         DataClassesDataContext db = new DataClassesDataContext();
         Form_Attendance form_Attendance;
-        string teacher_code { get; set; }
+        Teacher teacher { get; set; }
 
-        public Main_Form_Teacher(string code)
+        public Main_Form_Teacher(Teacher teacher)
         {
             InitializeComponent();
-            teacher_code = code;
+            this.teacher = teacher;
         }
 
         private void btnSchedule_Click(object sender, EventArgs e)
@@ -89,11 +89,11 @@ namespace student_management
             }
 
             var teacherSchedule = db.Schedules
-                .Where(s => s.teacher_code.Equals(teacher_code) && s.date_time >= startDate && s.date_time <= endDate)
+                .Where(s => s.teacher_code.Equals(teacher.code) && s.date_time >= startDate && s.date_time <= endDate)
                 .ToList();
 
             string[] slots = { "Ca 1", "Ca 2", "Ca 3", "Ca 4" };
-            dtgrvData.RowCount = 5;
+            dtgrvData.RowCount = 4;
 
             foreach (var slot in slots)
             {
