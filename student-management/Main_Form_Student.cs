@@ -190,5 +190,16 @@ namespace student_management
 
             return firstMonday.AddDays(7 * (weekNumber - 1));
         }
+
+        private void cbYear_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            makeDateWeekOfYear();
+            makeSchedule();
+        }
+
+        private void cbDateOfWeek_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            makeSchedule();
+        }
     }
 }

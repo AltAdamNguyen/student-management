@@ -64,6 +64,7 @@ namespace student_management
             this.cbYear.Name = "cbYear";
             this.cbYear.Size = new System.Drawing.Size(103, 21);
             this.cbYear.TabIndex = 16;
+            this.cbYear.SelectedIndexChanged += new System.EventHandler(this.cbYear_SelectedIndexChanged);
             // 
             // cbDateOfWeek
             // 
@@ -72,6 +73,7 @@ namespace student_management
             this.cbDateOfWeek.Name = "cbDateOfWeek";
             this.cbDateOfWeek.Size = new System.Drawing.Size(214, 21);
             this.cbDateOfWeek.TabIndex = 15;
+            this.cbDateOfWeek.SelectedIndexChanged += new System.EventHandler(this.cbDateOfWeek_SelectedIndexChanged);
             // 
             // dtgrvData
             // 
