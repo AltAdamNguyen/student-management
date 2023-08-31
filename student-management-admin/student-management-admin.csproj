@@ -4,15 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CBD4E828-9765-4FC6-A51E-522D29896620}</ProjectGuid>
+    <ProjectGuid>{DCA16FC3-200A-4933-854D-6FE5304B36E6}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>student_management</RootNamespace>
-    <AssemblyName>student-management</AssemblyName>
+    <RootNamespace>student_management_admin</RootNamespace>
+    <AssemblyName>student-management-admin</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -46,50 +44,77 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DAO\DataClasses.designer.cs">
+    <Compile Include="DAO\AdminClasses.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DataClasses.dbml</DependentUpon>
+      <DependentUpon>AdminClasses.dbml</DependentUpon>
     </Compile>
-    <Compile Include="Form_Attendance.cs">
+    <Compile Include="Form_Insert_Class.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form_Attendance.Designer.cs">
-      <DependentUpon>Form_Attendance.cs</DependentUpon>
+    <Compile Include="Form_Insert_Class.Designer.cs">
+      <DependentUpon>Form_Insert_Class.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form_Insert_Location.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_Insert_Location.Designer.cs">
+      <DependentUpon>Form_Insert_Location.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form_Insert_Schedule.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_Insert_Schedule.Designer.cs">
+      <DependentUpon>Form_Insert_Schedule.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form_Insert_Subject.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_Insert_Subject.Designer.cs">
+      <DependentUpon>Form_Insert_Subject.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form_Insert_User.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_Insert_User.Designer.cs">
+      <DependentUpon>Form_Insert_User.cs</DependentUpon>
     </Compile>
     <Compile Include="Helper\Function.cs" />
-    <Compile Include="Login_Form.cs">
+    <Compile Include="Login_Form_Admin.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Login_Form.Designer.cs">
-      <DependentUpon>Login_Form.cs</DependentUpon>
+    <Compile Include="Login_Form_Admin.Designer.cs">
+      <DependentUpon>Login_Form_Admin.cs</DependentUpon>
     </Compile>
-    <Compile Include="Main_Form_Student.cs">
+    <Compile Include="Main_Form_Admin.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Main_Form_Student.Designer.cs">
-      <DependentUpon>Main_Form_Student.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Main_Form_Teacher.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Main_Form_Teacher.Designer.cs">
-      <DependentUpon>Main_Form_Teacher.cs</DependentUpon>
+    <Compile Include="Main_Form_Admin.Designer.cs">
+      <DependentUpon>Main_Form_Admin.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\WeekItem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form_Attendance.resx">
-      <DependentUpon>Form_Attendance.cs</DependentUpon>
+    <EmbeddedResource Include="Form_Insert_Class.resx">
+      <DependentUpon>Form_Insert_Class.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Login_Form.resx">
-      <DependentUpon>Login_Form.cs</DependentUpon>
+    <EmbeddedResource Include="Form_Insert_Location.resx">
+      <DependentUpon>Form_Insert_Location.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Main_Form_Student.resx">
-      <DependentUpon>Main_Form_Student.cs</DependentUpon>
+    <EmbeddedResource Include="Form_Insert_Schedule.resx">
+      <DependentUpon>Form_Insert_Schedule.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Main_Form_Teacher.resx">
-      <DependentUpon>Main_Form_Teacher.cs</DependentUpon>
+    <EmbeddedResource Include="Form_Insert_Subject.resx">
+      <DependentUpon>Form_Insert_Subject.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_Insert_User.resx">
+      <DependentUpon>Form_Insert_User.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login_Form_Admin.resx">
+      <DependentUpon>Login_Form_Admin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Main_Form_Admin.resx">
+      <DependentUpon>Main_Form_Admin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -101,13 +126,13 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <None Include="app.config" />
-    <None Include="DAO\DataClasses.dbml">
+    <None Include="DAO\AdminClasses.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>DataClasses.designer.cs</LastGenOutput>
+      <LastGenOutput>AdminClasses.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
-    <None Include="DAO\DataClasses.dbml.layout">
-      <DependentUpon>DataClasses.dbml</DependentUpon>
+    <None Include="DAO\AdminClasses.dbml.layout">
+      <DependentUpon>AdminClasses.dbml</DependentUpon>
     </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -119,7 +144,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
