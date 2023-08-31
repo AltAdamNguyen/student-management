@@ -33,6 +33,7 @@ namespace student_management
         private void Main_Form_Student_Load(object sender, EventArgs e)
         {
             lblTitle.Text = "Lịch học của " + student.account + " (" + student.name + ")";
+            lblName.Text = student.name;
             dtgrvData.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             makeYear();
             makeDateWeekOfYear();

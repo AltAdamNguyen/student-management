@@ -33,22 +33,7 @@ namespace student_management_admin
         {
             InitializeComponent();
 
-            lblName.Text = nameAdmin;
-
-            txtSelect = "student";
-            
-            lblTitle.Text = "Danh sách sinh viên";
-            showLocation(false);
-            dtgrvData.DataSource = db.Students
-                .Select(s => new
-                {
-                    Mã_SV = s.code,
-                    Tên = s.name,
-                    Giới_tính = s.gender ? "Nam" : "Nữ",
-                    Tài_khoản = s.account,
-                    Email = s.email,
-                    Trạng_thái = s.active
-                });
+            lblName.Text = nameAdmin;          
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
@@ -67,6 +52,16 @@ namespace student_management_admin
             showCBTeacher(false);
             showDateTime(false);
             clearDataGrip();
+            var query = db.Students
+                .Select(s => new
+                {
+                    Mã_SV = s.code,
+                    Tên = s.name,
+                    Giới_tính = s.gender ? "Nam" : "Nữ",
+                    Tài_khoản = s.account,
+                    Email = s.email,
+                    Trạng_thái = s.active
+                });
             dtgrvData.DataSource = db.Students
                 .Select(s => new
                 {
@@ -413,7 +408,7 @@ namespace student_management_admin
                 .ToList();
 
             string[] slots = { "Ca 1", "Ca 2", "Ca 3", "Ca 4" };
-            dtgrvData.RowCount = 5;
+            dtgrvData.RowCount = 4;
 
             foreach (var slot in slots)
             {
@@ -425,7 +420,7 @@ namespace student_management_admin
                     int dayOfWeekIndex = (int)date.DayOfWeek - 1; 
                     var schedule = teacherSchedule.FirstOrDefault(s => s.date_time.Date == date.Date && s.slot == slotss);
                     if (schedule != null)
-                        dtgrvData.Rows[slotss - 1].Cells[dayOfWeekIndex].Value = schedule.class_id.ToString();
+                        dtgrvData.Rows[slotss - 1].Cells[dayOfWeekIndex].Value = schedule.subject_code + "- tại " + schedule.location_id;
                 }
             }
         }
@@ -435,6 +430,7 @@ namespace student_management_admin
             dtgrvData.DataSource = null;
             dtgrvData.Columns.Clear();
             dtgrvData.Rows.Clear();
+            dtgrvData.AutoGenerateColumns = true;
         }
 
         private void showDateTime(bool isShow)
@@ -619,6 +615,20 @@ namespace student_management_admin
             btnAddClass.Enabled = false;
             makeYear();
             makeDateWeekOfYear();
+            txtSelect = "student";
+
+            lblTitle.Text = "Danh sách sinh viên";
+            showLocation(false);
+            dtgrvData.DataSource = db.Students
+                .Select(s => new
+                {
+                    Mã_SV = s.code,
+                    Tên = s.name,
+                    Giới_tính = s.gender ? "Nam" : "Nữ",
+                    Tài_khoản = s.account,
+                    Email = s.email,
+                    Trạng_thái = s.active
+                });
         }
 
         private void dtgvClassroom_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -664,18 +674,25 @@ namespace student_management_admin
 
         private void cbYear_SelectedIndexChanged(object sender, EventArgs e)
         {
-            makeDateWeekOfYear();
-            makeSchedule();
+            if (cbYear.IsHandleCreated && cbYear.Focused)
+            {
+                makeDateWeekOfYear();
+                makeSchedule();
+            }
         }
 
         private void cbDateOfWeek_SelectedIndexChanged(object sender, EventArgs e)
         {
-            makeSchedule();
+            if (cbDateOfWeek.IsHandleCreated && cbDateOfWeek.Focused)
+            {
+                makeSchedule();
+            }
         }
 
         private void cbTeacher_SelectedIndexChanged(object sender, EventArgs e)
         {
-            makeSchedule();
+            if (cbTeacher.IsHandleCreated && cbTeacher.Focused)
+                makeSchedule();
         }
     }
 }

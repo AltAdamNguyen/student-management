@@ -15,7 +15,7 @@ namespace student_management_admin
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Main_Form_Admin("Công Anh"));
+            Application.Run(new Login_Form_Admin());
         }
     }
 }

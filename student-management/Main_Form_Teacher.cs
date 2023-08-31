@@ -31,6 +31,8 @@ namespace student_management
 
         private void Main_Form_Teacher_Load(object sender, EventArgs e)
         {
+            lblTitle.Text = "Lịch giảng của " + teacher.account + " (" + teacher.name + ")";
+            lblName.Text = teacher.name;
             makeYear();
             makeDateWeekOfYear();
             makeSchedule();

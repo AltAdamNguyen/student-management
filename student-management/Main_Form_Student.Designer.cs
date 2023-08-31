@@ -165,9 +165,9 @@ namespace student_management
             this.lblName.Location = new System.Drawing.Point(82, 12);
             this.lblName.Margin = new System.Windows.Forms.Padding(0);
             this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(51, 16);
+            this.lblName.Size = new System.Drawing.Size(66, 16);
             this.lblName.TabIndex = 1;
-            this.lblName.Text = "label2";
+            this.lblName.Text = "lblName";
             // 
             // Main_Form_Student
             // 

@@ -230,15 +230,12 @@ namespace student_management_admin
                     string code = dtgvStudent.Rows[e.RowIndex].Cells[1].Value.ToString();
                     if (!selectValue)
                     {
-                        dtgvStudent.Rows[e.RowIndex].Cells[0].Value = true;
                         listStudent.Add(code);
                     }
                     else
                     {
-                        dtgvStudent.Rows[e.RowIndex].Cells[0].Value = false;
                         listStudent.Remove(code);
                     }
-                    dtgvStudent.Refresh();
                     lblStudentCount.Text = "Số lượng sinh viên: " + listStudent.Count;
                 }
             }
