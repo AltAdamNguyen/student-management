@@ -51,7 +51,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DataClasses.dbml</DependentUpon>
     </Compile>
-    <Compile Include="db\Teachers.cs" />
+    <Compile Include="Form_Attendance.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_Attendance.Designer.cs">
+      <DependentUpon>Form_Attendance.cs</DependentUpon>
+    </Compile>
     <Compile Include="Helper\Function.cs" />
     <Compile Include="Login_Form.cs">
       <SubType>Form</SubType>
@@ -59,16 +64,32 @@
     <Compile Include="Login_Form.Designer.cs">
       <DependentUpon>Login_Form.cs</DependentUpon>
     </Compile>
-    <Compile Include="Main_Form.cs">
+    <Compile Include="Main_Form_Student.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Main_Form.Designer.cs">
-      <DependentUpon>Main_Form.cs</DependentUpon>
+    <Compile Include="Main_Form_Student.Designer.cs">
+      <DependentUpon>Main_Form_Student.cs</DependentUpon>
     </Compile>
+    <Compile Include="Main_Form_Teacher.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main_Form_Teacher.Designer.cs">
+      <DependentUpon>Main_Form_Teacher.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Model\WeekItem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Form_Attendance.resx">
+      <DependentUpon>Form_Attendance.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Login_Form.resx">
       <DependentUpon>Login_Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Main_Form_Student.resx">
+      <DependentUpon>Main_Form_Student.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Main_Form_Teacher.resx">
+      <DependentUpon>Main_Form_Teacher.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
