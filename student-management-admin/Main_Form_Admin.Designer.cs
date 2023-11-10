@@ -42,6 +42,8 @@ namespace student_management_admin
             this.lblName = new System.Windows.Forms.Label();
             this.lblTitle = new System.Windows.Forms.Label();
             this.pnActivity = new System.Windows.Forms.Panel();
+            this.cbYear = new System.Windows.Forms.ComboBox();
+            this.cbDateOfWeek = new System.Windows.Forms.ComboBox();
             this.lblTitleTeacher = new System.Windows.Forms.Label();
             this.btnSearch = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
@@ -56,8 +58,6 @@ namespace student_management_admin
             this.label2 = new System.Windows.Forms.Label();
             this.dtgvClassroom = new System.Windows.Forms.DataGridView();
             this.dtgvBuilding = new System.Windows.Forms.DataGridView();
-            this.cbDateOfWeek = new System.Windows.Forms.ComboBox();
-            this.cbYear = new System.Windows.Forms.ComboBox();
             this.pnlToolBar.SuspendLayout();
             this.panel1.SuspendLayout();
             this.pnActivity.SuspendLayout();
@@ -215,6 +215,28 @@ namespace student_management_admin
             this.pnActivity.Size = new System.Drawing.Size(772, 435);
             this.pnActivity.TabIndex = 2;
             // 
+            // cbYear
+            // 
+            this.cbYear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbYear.FormattingEnabled = true;
+            this.cbYear.Location = new System.Drawing.Point(91, 9);
+            this.cbYear.Name = "cbYear";
+            this.cbYear.Size = new System.Drawing.Size(103, 21);
+            this.cbYear.TabIndex = 16;
+            this.cbYear.Visible = false;
+            this.cbYear.SelectedIndexChanged += new System.EventHandler(this.cbYear_SelectedIndexChanged);
+            // 
+            // cbDateOfWeek
+            // 
+            this.cbDateOfWeek.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbDateOfWeek.FormattingEnabled = true;
+            this.cbDateOfWeek.Location = new System.Drawing.Point(200, 9);
+            this.cbDateOfWeek.Name = "cbDateOfWeek";
+            this.cbDateOfWeek.Size = new System.Drawing.Size(214, 21);
+            this.cbDateOfWeek.TabIndex = 15;
+            this.cbDateOfWeek.Visible = false;
+            this.cbDateOfWeek.SelectedIndexChanged += new System.EventHandler(this.cbDateOfWeek_SelectedIndexChanged);
+            // 
             // lblTitleTeacher
             // 
             this.lblTitleTeacher.AutoSize = true;
@@ -266,6 +288,7 @@ namespace student_management_admin
             // 
             // cbTeacher
             // 
+            this.cbTeacher.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbTeacher.FormattingEnabled = true;
             this.cbTeacher.Location = new System.Drawing.Point(529, 10);
             this.cbTeacher.Name = "cbTeacher";
@@ -367,26 +390,6 @@ namespace student_management_admin
             this.dtgvBuilding.TabIndex = 0;
             this.dtgvBuilding.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgvBuilding_CellClick);
             this.dtgvBuilding.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgvBuilding_CellDoubleClick);
-            // 
-            // cbDateOfWeek
-            // 
-            this.cbDateOfWeek.FormattingEnabled = true;
-            this.cbDateOfWeek.Location = new System.Drawing.Point(200, 9);
-            this.cbDateOfWeek.Name = "cbDateOfWeek";
-            this.cbDateOfWeek.Size = new System.Drawing.Size(214, 21);
-            this.cbDateOfWeek.TabIndex = 15;
-            this.cbDateOfWeek.Visible = false;
-            this.cbDateOfWeek.SelectedIndexChanged += new System.EventHandler(this.cbDateOfWeek_SelectedIndexChanged);
-            // 
-            // cbYear
-            // 
-            this.cbYear.FormattingEnabled = true;
-            this.cbYear.Location = new System.Drawing.Point(91, 9);
-            this.cbYear.Name = "cbYear";
-            this.cbYear.Size = new System.Drawing.Size(103, 21);
-            this.cbYear.TabIndex = 16;
-            this.cbYear.Visible = false;
-            this.cbYear.SelectedIndexChanged += new System.EventHandler(this.cbYear_SelectedIndexChanged);
             // 
             // Main_Form_Admin
             // 

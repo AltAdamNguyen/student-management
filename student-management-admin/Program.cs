@@ -15,7 +15,8 @@ namespace student_management_admin
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Login_Form_Admin());
+            Application.Run(new Main_Form_Admin("abc"));
+            //Application.Run(new Login_Form_Admin());
         }
     }
 }

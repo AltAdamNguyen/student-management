@@ -31,6 +31,11 @@ namespace student_management_admin
         {
             this.label8 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbClassroom = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.cbBuilding = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.cbSubject = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.cbClass = new System.Windows.Forms.ComboBox();
@@ -41,11 +46,6 @@ namespace student_management_admin
             this.lblCode = new System.Windows.Forms.Label();
             this.lblTitle = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.cbBuilding = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.cbClassroom = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -76,8 +76,59 @@ namespace student_management_admin
             this.panel1.Size = new System.Drawing.Size(340, 295);
             this.panel1.TabIndex = 14;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.cbClassroom);
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.cbBuilding);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Location = new System.Drawing.Point(13, 139);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(312, 98);
+            this.groupBox1.TabIndex = 22;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Vị trí";
+            // 
+            // cbClassroom
+            // 
+            this.cbClassroom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbClassroom.FormattingEnabled = true;
+            this.cbClassroom.Location = new System.Drawing.Point(92, 58);
+            this.cbClassroom.Name = "cbClassroom";
+            this.cbClassroom.Size = new System.Drawing.Size(200, 21);
+            this.cbClassroom.TabIndex = 25;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(18, 66);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(59, 13);
+            this.label4.TabIndex = 24;
+            this.label4.Text = "Phòng học";
+            // 
+            // cbBuilding
+            // 
+            this.cbBuilding.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbBuilding.FormattingEnabled = true;
+            this.cbBuilding.Location = new System.Drawing.Point(92, 19);
+            this.cbBuilding.Name = "cbBuilding";
+            this.cbBuilding.Size = new System.Drawing.Size(200, 21);
+            this.cbBuilding.TabIndex = 23;
+            this.cbBuilding.SelectedIndexChanged += new System.EventHandler(this.cbBuilding_SelectedIndexChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(18, 27);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(47, 13);
+            this.label3.TabIndex = 22;
+            this.label3.Text = "Toà nhà";
+            // 
             // cbSubject
             // 
+            this.cbSubject.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbSubject.FormattingEnabled = true;
             this.cbSubject.Location = new System.Drawing.Point(84, 101);
             this.cbSubject.Name = "cbSubject";
@@ -96,6 +147,7 @@ namespace student_management_admin
             // 
             // cbClass
             // 
+            this.cbClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbClass.FormattingEnabled = true;
             this.cbClass.Location = new System.Drawing.Point(84, 56);
             this.cbClass.Name = "cbClass";
@@ -105,6 +157,7 @@ namespace student_management_admin
             // 
             // cbTeacher
             // 
+            this.cbTeacher.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbTeacher.FormattingEnabled = true;
             this.cbTeacher.Location = new System.Drawing.Point(84, 12);
             this.cbTeacher.Name = "cbTeacher";
@@ -168,53 +221,6 @@ namespace student_management_admin
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(364, 295);
             this.panel2.TabIndex = 17;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.cbClassroom);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.cbBuilding);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Location = new System.Drawing.Point(13, 139);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(312, 98);
-            this.groupBox1.TabIndex = 22;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Vị trí";
-            // 
-            // cbBuilding
-            // 
-            this.cbBuilding.FormattingEnabled = true;
-            this.cbBuilding.Location = new System.Drawing.Point(92, 19);
-            this.cbBuilding.Name = "cbBuilding";
-            this.cbBuilding.Size = new System.Drawing.Size(200, 21);
-            this.cbBuilding.TabIndex = 23;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(18, 27);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(47, 13);
-            this.label3.TabIndex = 22;
-            this.label3.Text = "Toà nhà";
-            // 
-            // cbClassroom
-            // 
-            this.cbClassroom.FormattingEnabled = true;
-            this.cbClassroom.Location = new System.Drawing.Point(92, 58);
-            this.cbClassroom.Name = "cbClassroom";
-            this.cbClassroom.Size = new System.Drawing.Size(200, 21);
-            this.cbClassroom.TabIndex = 25;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(18, 66);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(59, 13);
-            this.label4.TabIndex = 24;
-            this.label4.Text = "Phòng học";
             // 
             // Form_Insert_Schedule
             // 

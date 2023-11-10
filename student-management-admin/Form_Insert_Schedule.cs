@@ -57,17 +57,7 @@ namespace student_management_admin
             cbBuilding.ValueMember = "id";
             cbBuilding.SelectedIndex = 0;
 
-            cbClassroom.DataSource = from l in db.Locations
-                                     join b in db.Buildings on l.building_id equals b.id
-                                     join c in db.Classrooms on l.classroom_id equals c.id
-                                     where l.building_id == cbBuilding.SelectedValue
-                                     select new
-                                     {
-                                         id = c.id,
-                                         name = c.name
-                                     };
-            cbClassroom.DisplayMember = "name";
-            cbClassroom.ValueMember = "id";
+            changeClassRoom();
             cbClassroom.SelectedIndex = 0;
 
             panel2.AutoScroll = true;
@@ -280,9 +270,29 @@ namespace student_management_admin
             }
         }
 
+        private void changeClassRoom()
+        {
+            cbClassroom.DataSource = from l in db.Locations
+                                     join b in db.Buildings on l.building_id equals b.id
+                                     join c in db.Classrooms on l.classroom_id equals c.id
+                                     where l.building_id == cbBuilding.SelectedValue
+                                     select new
+                                     {
+                                         id = c.id,
+                                         name = c.name
+                                     };
+            cbClassroom.DisplayMember = "name";
+            cbClassroom.ValueMember = "id";
+        }
+
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void cbBuilding_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            changeClassRoom();
         }
     }
 }
