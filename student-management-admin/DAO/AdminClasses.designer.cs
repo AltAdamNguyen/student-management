@@ -33,36 +33,36 @@ namespace student_management_admin.DAO
     partial void InsertAdmin(Admin instance);
     partial void UpdateAdmin(Admin instance);
     partial void DeleteAdmin(Admin instance);
+    partial void InsertAttendance(Attendance instance);
+    partial void UpdateAttendance(Attendance instance);
+    partial void DeleteAttendance(Attendance instance);
+    partial void InsertBuilding(Building instance);
+    partial void UpdateBuilding(Building instance);
+    partial void DeleteBuilding(Building instance);
     partial void InsertClass(Class instance);
     partial void UpdateClass(Class instance);
     partial void DeleteClass(Class instance);
+    partial void InsertClass_Student(Class_Student instance);
+    partial void UpdateClass_Student(Class_Student instance);
+    partial void DeleteClass_Student(Class_Student instance);
+    partial void InsertClassroom(Classroom instance);
+    partial void UpdateClassroom(Classroom instance);
+    partial void DeleteClassroom(Classroom instance);
+    partial void InsertLocation(Location instance);
+    partial void UpdateLocation(Location instance);
+    partial void DeleteLocation(Location instance);
+    partial void InsertSchedule(Schedule instance);
+    partial void UpdateSchedule(Schedule instance);
+    partial void DeleteSchedule(Schedule instance);
     partial void InsertStudent(Student instance);
     partial void UpdateStudent(Student instance);
     partial void DeleteStudent(Student instance);
     partial void InsertTeacher(Teacher instance);
     partial void UpdateTeacher(Teacher instance);
     partial void DeleteTeacher(Teacher instance);
-    partial void InsertSchedule(Schedule instance);
-    partial void UpdateSchedule(Schedule instance);
-    partial void DeleteSchedule(Schedule instance);
-    partial void InsertLocation(Location instance);
-    partial void UpdateLocation(Location instance);
-    partial void DeleteLocation(Location instance);
-    partial void InsertBuilding(Building instance);
-    partial void UpdateBuilding(Building instance);
-    partial void DeleteBuilding(Building instance);
-    partial void InsertClassroom(Classroom instance);
-    partial void UpdateClassroom(Classroom instance);
-    partial void DeleteClassroom(Classroom instance);
-    partial void InsertClass_Student(Class_Student instance);
-    partial void UpdateClass_Student(Class_Student instance);
-    partial void DeleteClass_Student(Class_Student instance);
     partial void InsertSubject(Subject instance);
     partial void UpdateSubject(Subject instance);
     partial void DeleteSubject(Subject instance);
-    partial void InsertAttendance(Attendance instance);
-    partial void UpdateAttendance(Attendance instance);
-    partial void DeleteAttendance(Attendance instance);
     #endregion
 		
 		public AdminClassesDataContext() : 
@@ -103,11 +103,67 @@ namespace student_management_admin.DAO
 			}
 		}
 		
+		public System.Data.Linq.Table<Attendance> Attendances
+		{
+			get
+			{
+				return this.GetTable<Attendance>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Building> Buildings
+		{
+			get
+			{
+				return this.GetTable<Building>();
+			}
+		}
+		
 		public System.Data.Linq.Table<Class> Classes
 		{
 			get
 			{
 				return this.GetTable<Class>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Class_Student> Class_Students
+		{
+			get
+			{
+				return this.GetTable<Class_Student>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Class_Teacher> Class_Teachers
+		{
+			get
+			{
+				return this.GetTable<Class_Teacher>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Classroom> Classrooms
+		{
+			get
+			{
+				return this.GetTable<Classroom>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Location> Locations
+		{
+			get
+			{
+				return this.GetTable<Location>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Schedule> Schedules
+		{
+			get
+			{
+				return this.GetTable<Schedule>();
 			}
 		}
 		
@@ -127,67 +183,11 @@ namespace student_management_admin.DAO
 			}
 		}
 		
-		public System.Data.Linq.Table<Schedule> Schedules
-		{
-			get
-			{
-				return this.GetTable<Schedule>();
-			}
-		}
-		
-		public System.Data.Linq.Table<Location> Locations
-		{
-			get
-			{
-				return this.GetTable<Location>();
-			}
-		}
-		
-		public System.Data.Linq.Table<Building> Buildings
-		{
-			get
-			{
-				return this.GetTable<Building>();
-			}
-		}
-		
-		public System.Data.Linq.Table<Classroom> Classrooms
-		{
-			get
-			{
-				return this.GetTable<Classroom>();
-			}
-		}
-		
-		public System.Data.Linq.Table<Class_Teacher> Class_Teachers
-		{
-			get
-			{
-				return this.GetTable<Class_Teacher>();
-			}
-		}
-		
-		public System.Data.Linq.Table<Class_Student> Class_Students
-		{
-			get
-			{
-				return this.GetTable<Class_Student>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Subject> Subjects
 		{
 			get
 			{
 				return this.GetTable<Subject>();
-			}
-		}
-		
-		public System.Data.Linq.Table<Attendance> Attendances
-		{
-			get
-			{
-				return this.GetTable<Attendance>();
 			}
 		}
 	}
@@ -350,6 +350,336 @@ namespace student_management_admin.DAO
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Attendance")]
+	public partial class Attendance : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _id;
+		
+		private string _schedule_id;
+		
+		private string _student_code;
+		
+		private int _attended;
+		
+		private EntityRef<Schedule> _Schedule;
+		
+		private EntityRef<Student> _Student;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(string value);
+    partial void OnidChanged();
+    partial void Onschedule_idChanging(string value);
+    partial void Onschedule_idChanged();
+    partial void Onstudent_codeChanging(string value);
+    partial void Onstudent_codeChanged();
+    partial void OnattendedChanging(int value);
+    partial void OnattendedChanged();
+    #endregion
+		
+		public Attendance()
+		{
+			this._Schedule = default(EntityRef<Schedule>);
+			this._Student = default(EntityRef<Student>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="NVarChar(100) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_schedule_id", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string schedule_id
+		{
+			get
+			{
+				return this._schedule_id;
+			}
+			set
+			{
+				if ((this._schedule_id != value))
+				{
+					if (this._Schedule.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.Onschedule_idChanging(value);
+					this.SendPropertyChanging();
+					this._schedule_id = value;
+					this.SendPropertyChanged("schedule_id");
+					this.Onschedule_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_student_code", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string student_code
+		{
+			get
+			{
+				return this._student_code;
+			}
+			set
+			{
+				if ((this._student_code != value))
+				{
+					if (this._Student.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.Onstudent_codeChanging(value);
+					this.SendPropertyChanging();
+					this._student_code = value;
+					this.SendPropertyChanged("student_code");
+					this.Onstudent_codeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_attended", DbType="Int NOT NULL")]
+		public int attended
+		{
+			get
+			{
+				return this._attended;
+			}
+			set
+			{
+				if ((this._attended != value))
+				{
+					this.OnattendedChanging(value);
+					this.SendPropertyChanging();
+					this._attended = value;
+					this.SendPropertyChanged("attended");
+					this.OnattendedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Schedule_Attendance", Storage="_Schedule", ThisKey="schedule_id", OtherKey="id", IsForeignKey=true)]
+		public Schedule Schedule
+		{
+			get
+			{
+				return this._Schedule.Entity;
+			}
+			set
+			{
+				Schedule previousValue = this._Schedule.Entity;
+				if (((previousValue != value) 
+							|| (this._Schedule.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Schedule.Entity = null;
+						previousValue.Attendances.Remove(this);
+					}
+					this._Schedule.Entity = value;
+					if ((value != null))
+					{
+						value.Attendances.Add(this);
+						this._schedule_id = value.id;
+					}
+					else
+					{
+						this._schedule_id = default(string);
+					}
+					this.SendPropertyChanged("Schedule");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Student_Attendance", Storage="_Student", ThisKey="student_code", OtherKey="code", IsForeignKey=true)]
+		public Student Student
+		{
+			get
+			{
+				return this._Student.Entity;
+			}
+			set
+			{
+				Student previousValue = this._Student.Entity;
+				if (((previousValue != value) 
+							|| (this._Student.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Student.Entity = null;
+						previousValue.Attendances.Remove(this);
+					}
+					this._Student.Entity = value;
+					if ((value != null))
+					{
+						value.Attendances.Add(this);
+						this._student_code = value.code;
+					}
+					else
+					{
+						this._student_code = default(string);
+					}
+					this.SendPropertyChanged("Student");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Building")]
+	public partial class Building : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _id;
+		
+		private string _name;
+		
+		private EntitySet<Location> _Locations;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(string value);
+    partial void OnidChanged();
+    partial void OnnameChanging(string value);
+    partial void OnnameChanged();
+    #endregion
+		
+		public Building()
+		{
+			this._Locations = new EntitySet<Location>(new Action<Location>(this.attach_Locations), new Action<Location>(this.detach_Locations));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string name
+		{
+			get
+			{
+				return this._name;
+			}
+			set
+			{
+				if ((this._name != value))
+				{
+					this.OnnameChanging(value);
+					this.SendPropertyChanging();
+					this._name = value;
+					this.SendPropertyChanged("name");
+					this.OnnameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Building_Location", Storage="_Locations", ThisKey="id", OtherKey="building_id")]
+		public EntitySet<Location> Locations
+		{
+			get
+			{
+				return this._Locations;
+			}
+			set
+			{
+				this._Locations.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Locations(Location entity)
+		{
+			this.SendPropertyChanging();
+			entity.Building = this;
+		}
+		
+		private void detach_Locations(Location entity)
+		{
+			this.SendPropertyChanging();
+			entity.Building = null;
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Class")]
 	public partial class Class : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -360,9 +690,9 @@ namespace student_management_admin.DAO
 		
 		private string _name;
 		
-		private EntitySet<Schedule> _Schedules;
-		
 		private EntitySet<Class_Student> _Class_Students;
+		
+		private EntitySet<Schedule> _Schedules;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -376,8 +706,8 @@ namespace student_management_admin.DAO
 		
 		public Class()
 		{
-			this._Schedules = new EntitySet<Schedule>(new Action<Schedule>(this.attach_Schedules), new Action<Schedule>(this.detach_Schedules));
 			this._Class_Students = new EntitySet<Class_Student>(new Action<Class_Student>(this.attach_Class_Students), new Action<Class_Student>(this.detach_Class_Students));
+			this._Schedules = new EntitySet<Schedule>(new Action<Schedule>(this.attach_Schedules), new Action<Schedule>(this.detach_Schedules));
 			OnCreated();
 		}
 		
@@ -421,6 +751,19 @@ namespace student_management_admin.DAO
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Class_Class_Student", Storage="_Class_Students", ThisKey="id", OtherKey="class_id")]
+		public EntitySet<Class_Student> Class_Students
+		{
+			get
+			{
+				return this._Class_Students;
+			}
+			set
+			{
+				this._Class_Students.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Class_Schedule", Storage="_Schedules", ThisKey="id", OtherKey="class_id")]
 		public EntitySet<Schedule> Schedules
 		{
@@ -434,16 +777,586 @@ namespace student_management_admin.DAO
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Class_Class_Student", Storage="_Class_Students", ThisKey="id", OtherKey="class_id")]
-		public EntitySet<Class_Student> Class_Students
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Class_Students(Class_Student entity)
+		{
+			this.SendPropertyChanging();
+			entity.Class = this;
+		}
+		
+		private void detach_Class_Students(Class_Student entity)
+		{
+			this.SendPropertyChanging();
+			entity.Class = null;
+		}
+		
+		private void attach_Schedules(Schedule entity)
+		{
+			this.SendPropertyChanging();
+			entity.Class = this;
+		}
+		
+		private void detach_Schedules(Schedule entity)
+		{
+			this.SendPropertyChanging();
+			entity.Class = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Class_Student")]
+	public partial class Class_Student : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _id;
+		
+		private string _class_id;
+		
+		private string _student_code;
+		
+		private EntityRef<Class> _Class;
+		
+		private EntityRef<Student> _Student;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(string value);
+    partial void OnidChanged();
+    partial void Onclass_idChanging(string value);
+    partial void Onclass_idChanged();
+    partial void Onstudent_codeChanging(string value);
+    partial void Onstudent_codeChanged();
+    #endregion
+		
+		public Class_Student()
+		{
+			this._Class = default(EntityRef<Class>);
+			this._Student = default(EntityRef<Student>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string id
 		{
 			get
 			{
-				return this._Class_Students;
+				return this._id;
 			}
 			set
 			{
-				this._Class_Students.Assign(value);
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_class_id", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string class_id
+		{
+			get
+			{
+				return this._class_id;
+			}
+			set
+			{
+				if ((this._class_id != value))
+				{
+					if (this._Class.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.Onclass_idChanging(value);
+					this.SendPropertyChanging();
+					this._class_id = value;
+					this.SendPropertyChanged("class_id");
+					this.Onclass_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_student_code", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string student_code
+		{
+			get
+			{
+				return this._student_code;
+			}
+			set
+			{
+				if ((this._student_code != value))
+				{
+					if (this._Student.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.Onstudent_codeChanging(value);
+					this.SendPropertyChanging();
+					this._student_code = value;
+					this.SendPropertyChanged("student_code");
+					this.Onstudent_codeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Class_Class_Student", Storage="_Class", ThisKey="class_id", OtherKey="id", IsForeignKey=true)]
+		public Class Class
+		{
+			get
+			{
+				return this._Class.Entity;
+			}
+			set
+			{
+				Class previousValue = this._Class.Entity;
+				if (((previousValue != value) 
+							|| (this._Class.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Class.Entity = null;
+						previousValue.Class_Students.Remove(this);
+					}
+					this._Class.Entity = value;
+					if ((value != null))
+					{
+						value.Class_Students.Add(this);
+						this._class_id = value.id;
+					}
+					else
+					{
+						this._class_id = default(string);
+					}
+					this.SendPropertyChanged("Class");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Student_Class_Student", Storage="_Student", ThisKey="student_code", OtherKey="code", IsForeignKey=true)]
+		public Student Student
+		{
+			get
+			{
+				return this._Student.Entity;
+			}
+			set
+			{
+				Student previousValue = this._Student.Entity;
+				if (((previousValue != value) 
+							|| (this._Student.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Student.Entity = null;
+						previousValue.Class_Students.Remove(this);
+					}
+					this._Student.Entity = value;
+					if ((value != null))
+					{
+						value.Class_Students.Add(this);
+						this._student_code = value.code;
+					}
+					else
+					{
+						this._student_code = default(string);
+					}
+					this.SendPropertyChanged("Student");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Class_Teacher")]
+	public partial class Class_Teacher
+	{
+		
+		private string _class_id;
+		
+		private string _teacher_code;
+		
+		public Class_Teacher()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_class_id", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string class_id
+		{
+			get
+			{
+				return this._class_id;
+			}
+			set
+			{
+				if ((this._class_id != value))
+				{
+					this._class_id = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_teacher_code", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string teacher_code
+		{
+			get
+			{
+				return this._teacher_code;
+			}
+			set
+			{
+				if ((this._teacher_code != value))
+				{
+					this._teacher_code = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Classroom")]
+	public partial class Classroom : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _id;
+		
+		private string _name;
+		
+		private EntitySet<Location> _Locations;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(string value);
+    partial void OnidChanged();
+    partial void OnnameChanging(string value);
+    partial void OnnameChanged();
+    #endregion
+		
+		public Classroom()
+		{
+			this._Locations = new EntitySet<Location>(new Action<Location>(this.attach_Locations), new Action<Location>(this.detach_Locations));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string name
+		{
+			get
+			{
+				return this._name;
+			}
+			set
+			{
+				if ((this._name != value))
+				{
+					this.OnnameChanging(value);
+					this.SendPropertyChanging();
+					this._name = value;
+					this.SendPropertyChanged("name");
+					this.OnnameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Classroom_Location", Storage="_Locations", ThisKey="id", OtherKey="classroom_id")]
+		public EntitySet<Location> Locations
+		{
+			get
+			{
+				return this._Locations;
+			}
+			set
+			{
+				this._Locations.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Locations(Location entity)
+		{
+			this.SendPropertyChanging();
+			entity.Classroom = this;
+		}
+		
+		private void detach_Locations(Location entity)
+		{
+			this.SendPropertyChanging();
+			entity.Classroom = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Location")]
+	public partial class Location : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _id;
+		
+		private string _building_id;
+		
+		private string _classroom_id;
+		
+		private EntitySet<Schedule> _Schedules;
+		
+		private EntityRef<Building> _Building;
+		
+		private EntityRef<Classroom> _Classroom;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(string value);
+    partial void OnidChanged();
+    partial void Onbuilding_idChanging(string value);
+    partial void Onbuilding_idChanged();
+    partial void Onclassroom_idChanging(string value);
+    partial void Onclassroom_idChanged();
+    #endregion
+		
+		public Location()
+		{
+			this._Schedules = new EntitySet<Schedule>(new Action<Schedule>(this.attach_Schedules), new Action<Schedule>(this.detach_Schedules));
+			this._Building = default(EntityRef<Building>);
+			this._Classroom = default(EntityRef<Classroom>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_building_id", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string building_id
+		{
+			get
+			{
+				return this._building_id;
+			}
+			set
+			{
+				if ((this._building_id != value))
+				{
+					if (this._Building.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.Onbuilding_idChanging(value);
+					this.SendPropertyChanging();
+					this._building_id = value;
+					this.SendPropertyChanged("building_id");
+					this.Onbuilding_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_classroom_id", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string classroom_id
+		{
+			get
+			{
+				return this._classroom_id;
+			}
+			set
+			{
+				if ((this._classroom_id != value))
+				{
+					if (this._Classroom.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.Onclassroom_idChanging(value);
+					this.SendPropertyChanging();
+					this._classroom_id = value;
+					this.SendPropertyChanged("classroom_id");
+					this.Onclassroom_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Location_Schedule", Storage="_Schedules", ThisKey="id", OtherKey="location_id")]
+		public EntitySet<Schedule> Schedules
+		{
+			get
+			{
+				return this._Schedules;
+			}
+			set
+			{
+				this._Schedules.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Building_Location", Storage="_Building", ThisKey="building_id", OtherKey="id", IsForeignKey=true)]
+		public Building Building
+		{
+			get
+			{
+				return this._Building.Entity;
+			}
+			set
+			{
+				Building previousValue = this._Building.Entity;
+				if (((previousValue != value) 
+							|| (this._Building.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Building.Entity = null;
+						previousValue.Locations.Remove(this);
+					}
+					this._Building.Entity = value;
+					if ((value != null))
+					{
+						value.Locations.Add(this);
+						this._building_id = value.id;
+					}
+					else
+					{
+						this._building_id = default(string);
+					}
+					this.SendPropertyChanged("Building");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Classroom_Location", Storage="_Classroom", ThisKey="classroom_id", OtherKey="id", IsForeignKey=true)]
+		public Classroom Classroom
+		{
+			get
+			{
+				return this._Classroom.Entity;
+			}
+			set
+			{
+				Classroom previousValue = this._Classroom.Entity;
+				if (((previousValue != value) 
+							|| (this._Classroom.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Classroom.Entity = null;
+						previousValue.Locations.Remove(this);
+					}
+					this._Classroom.Entity = value;
+					if ((value != null))
+					{
+						value.Locations.Add(this);
+						this._classroom_id = value.id;
+					}
+					else
+					{
+						this._classroom_id = default(string);
+					}
+					this.SendPropertyChanged("Classroom");
+				}
 			}
 		}
 		
@@ -470,25 +1383,411 @@ namespace student_management_admin.DAO
 		private void attach_Schedules(Schedule entity)
 		{
 			this.SendPropertyChanging();
-			entity.Class = this;
+			entity.Location = this;
 		}
 		
 		private void detach_Schedules(Schedule entity)
 		{
 			this.SendPropertyChanging();
-			entity.Class = null;
+			entity.Location = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Schedule")]
+	public partial class Schedule : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _id;
+		
+		private string _class_id;
+		
+		private string _teacher_code;
+		
+		private string _subject_code;
+		
+		private System.DateTime _date_time;
+		
+		private int _slot;
+		
+		private string _location_id;
+		
+		private EntitySet<Attendance> _Attendances;
+		
+		private EntityRef<Class> _Class;
+		
+		private EntityRef<Location> _Location;
+		
+		private EntityRef<Teacher> _Teacher;
+		
+		private EntityRef<Subject> _Subject;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(string value);
+    partial void OnidChanged();
+    partial void Onclass_idChanging(string value);
+    partial void Onclass_idChanged();
+    partial void Onteacher_codeChanging(string value);
+    partial void Onteacher_codeChanged();
+    partial void Onsubject_codeChanging(string value);
+    partial void Onsubject_codeChanged();
+    partial void Ondate_timeChanging(System.DateTime value);
+    partial void Ondate_timeChanged();
+    partial void OnslotChanging(int value);
+    partial void OnslotChanged();
+    partial void Onlocation_idChanging(string value);
+    partial void Onlocation_idChanged();
+    #endregion
+		
+		public Schedule()
+		{
+			this._Attendances = new EntitySet<Attendance>(new Action<Attendance>(this.attach_Attendances), new Action<Attendance>(this.detach_Attendances));
+			this._Class = default(EntityRef<Class>);
+			this._Location = default(EntityRef<Location>);
+			this._Teacher = default(EntityRef<Teacher>);
+			this._Subject = default(EntityRef<Subject>);
+			OnCreated();
 		}
 		
-		private void attach_Class_Students(Class_Student entity)
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string id
 		{
-			this.SendPropertyChanging();
-			entity.Class = this;
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
 		}
 		
-		private void detach_Class_Students(Class_Student entity)
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_class_id", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string class_id
+		{
+			get
+			{
+				return this._class_id;
+			}
+			set
+			{
+				if ((this._class_id != value))
+				{
+					if (this._Class.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.Onclass_idChanging(value);
+					this.SendPropertyChanging();
+					this._class_id = value;
+					this.SendPropertyChanged("class_id");
+					this.Onclass_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_teacher_code", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string teacher_code
+		{
+			get
+			{
+				return this._teacher_code;
+			}
+			set
+			{
+				if ((this._teacher_code != value))
+				{
+					if (this._Teacher.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.Onteacher_codeChanging(value);
+					this.SendPropertyChanging();
+					this._teacher_code = value;
+					this.SendPropertyChanged("teacher_code");
+					this.Onteacher_codeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_subject_code", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string subject_code
+		{
+			get
+			{
+				return this._subject_code;
+			}
+			set
+			{
+				if ((this._subject_code != value))
+				{
+					if (this._Subject.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.Onsubject_codeChanging(value);
+					this.SendPropertyChanging();
+					this._subject_code = value;
+					this.SendPropertyChanged("subject_code");
+					this.Onsubject_codeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_date_time", DbType="Date NOT NULL")]
+		public System.DateTime date_time
+		{
+			get
+			{
+				return this._date_time;
+			}
+			set
+			{
+				if ((this._date_time != value))
+				{
+					this.Ondate_timeChanging(value);
+					this.SendPropertyChanging();
+					this._date_time = value;
+					this.SendPropertyChanged("date_time");
+					this.Ondate_timeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_slot", DbType="Int NOT NULL")]
+		public int slot
+		{
+			get
+			{
+				return this._slot;
+			}
+			set
+			{
+				if ((this._slot != value))
+				{
+					this.OnslotChanging(value);
+					this.SendPropertyChanging();
+					this._slot = value;
+					this.SendPropertyChanged("slot");
+					this.OnslotChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_location_id", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string location_id
+		{
+			get
+			{
+				return this._location_id;
+			}
+			set
+			{
+				if ((this._location_id != value))
+				{
+					if (this._Location.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.Onlocation_idChanging(value);
+					this.SendPropertyChanging();
+					this._location_id = value;
+					this.SendPropertyChanged("location_id");
+					this.Onlocation_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Schedule_Attendance", Storage="_Attendances", ThisKey="id", OtherKey="schedule_id")]
+		public EntitySet<Attendance> Attendances
+		{
+			get
+			{
+				return this._Attendances;
+			}
+			set
+			{
+				this._Attendances.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Class_Schedule", Storage="_Class", ThisKey="class_id", OtherKey="id", IsForeignKey=true)]
+		public Class Class
+		{
+			get
+			{
+				return this._Class.Entity;
+			}
+			set
+			{
+				Class previousValue = this._Class.Entity;
+				if (((previousValue != value) 
+							|| (this._Class.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Class.Entity = null;
+						previousValue.Schedules.Remove(this);
+					}
+					this._Class.Entity = value;
+					if ((value != null))
+					{
+						value.Schedules.Add(this);
+						this._class_id = value.id;
+					}
+					else
+					{
+						this._class_id = default(string);
+					}
+					this.SendPropertyChanged("Class");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Location_Schedule", Storage="_Location", ThisKey="location_id", OtherKey="id", IsForeignKey=true)]
+		public Location Location
+		{
+			get
+			{
+				return this._Location.Entity;
+			}
+			set
+			{
+				Location previousValue = this._Location.Entity;
+				if (((previousValue != value) 
+							|| (this._Location.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Location.Entity = null;
+						previousValue.Schedules.Remove(this);
+					}
+					this._Location.Entity = value;
+					if ((value != null))
+					{
+						value.Schedules.Add(this);
+						this._location_id = value.id;
+					}
+					else
+					{
+						this._location_id = default(string);
+					}
+					this.SendPropertyChanged("Location");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Teacher_Schedule", Storage="_Teacher", ThisKey="teacher_code", OtherKey="code", IsForeignKey=true)]
+		public Teacher Teacher
+		{
+			get
+			{
+				return this._Teacher.Entity;
+			}
+			set
+			{
+				Teacher previousValue = this._Teacher.Entity;
+				if (((previousValue != value) 
+							|| (this._Teacher.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Teacher.Entity = null;
+						previousValue.Schedules.Remove(this);
+					}
+					this._Teacher.Entity = value;
+					if ((value != null))
+					{
+						value.Schedules.Add(this);
+						this._teacher_code = value.code;
+					}
+					else
+					{
+						this._teacher_code = default(string);
+					}
+					this.SendPropertyChanged("Teacher");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Subject_Schedule", Storage="_Subject", ThisKey="subject_code", OtherKey="code", IsForeignKey=true)]
+		public Subject Subject
+		{
+			get
+			{
+				return this._Subject.Entity;
+			}
+			set
+			{
+				Subject previousValue = this._Subject.Entity;
+				if (((previousValue != value) 
+							|| (this._Subject.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Subject.Entity = null;
+						previousValue.Schedules.Remove(this);
+					}
+					this._Subject.Entity = value;
+					if ((value != null))
+					{
+						value.Schedules.Add(this);
+						this._subject_code = value.code;
+					}
+					else
+					{
+						this._subject_code = default(string);
+					}
+					this.SendPropertyChanged("Subject");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Attendances(Attendance entity)
 		{
 			this.SendPropertyChanging();
-			entity.Class = null;
+			entity.Schedule = this;
+		}
+		
+		private void detach_Attendances(Attendance entity)
+		{
+			this.SendPropertyChanging();
+			entity.Schedule = null;
 		}
 	}
 	
@@ -512,9 +1811,9 @@ namespace student_management_admin.DAO
 		
 		private string _account;
 		
-		private EntitySet<Class_Student> _Class_Students;
-		
 		private EntitySet<Attendance> _Attendances;
+		
+		private EntitySet<Class_Student> _Class_Students;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -538,8 +1837,8 @@ namespace student_management_admin.DAO
 		
 		public Student()
 		{
-			this._Class_Students = new EntitySet<Class_Student>(new Action<Class_Student>(this.attach_Class_Students), new Action<Class_Student>(this.detach_Class_Students));
 			this._Attendances = new EntitySet<Attendance>(new Action<Attendance>(this.attach_Attendances), new Action<Attendance>(this.detach_Attendances));
+			this._Class_Students = new EntitySet<Class_Student>(new Action<Class_Student>(this.attach_Class_Students), new Action<Class_Student>(this.detach_Class_Students));
 			OnCreated();
 		}
 		
@@ -683,19 +1982,6 @@ namespace student_management_admin.DAO
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Student_Class_Student", Storage="_Class_Students", ThisKey="code", OtherKey="student_code")]
-		public EntitySet<Class_Student> Class_Students
-		{
-			get
-			{
-				return this._Class_Students;
-			}
-			set
-			{
-				this._Class_Students.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Student_Attendance", Storage="_Attendances", ThisKey="code", OtherKey="student_code")]
 		public EntitySet<Attendance> Attendances
 		{
@@ -706,6 +1992,19 @@ namespace student_management_admin.DAO
 			set
 			{
 				this._Attendances.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Student_Class_Student", Storage="_Class_Students", ThisKey="code", OtherKey="student_code")]
+		public EntitySet<Class_Student> Class_Students
+		{
+			get
+			{
+				return this._Class_Students;
+			}
+			set
+			{
+				this._Class_Students.Assign(value);
 			}
 		}
 		
@@ -729,18 +2028,6 @@ namespace student_management_admin.DAO
 			}
 		}
 		
-		private void attach_Class_Students(Class_Student entity)
-		{
-			this.SendPropertyChanging();
-			entity.Student = this;
-		}
-		
-		private void detach_Class_Students(Class_Student entity)
-		{
-			this.SendPropertyChanging();
-			entity.Student = null;
-		}
-		
 		private void attach_Attendances(Attendance entity)
 		{
 			this.SendPropertyChanging();
@@ -748,6 +2035,18 @@ namespace student_management_admin.DAO
 		}
 		
 		private void detach_Attendances(Attendance entity)
+		{
+			this.SendPropertyChanging();
+			entity.Student = null;
+		}
+		
+		private void attach_Class_Students(Class_Student entity)
+		{
+			this.SendPropertyChanging();
+			entity.Student = this;
+		}
+		
+		private void detach_Class_Students(Class_Student entity)
 		{
 			this.SendPropertyChanging();
 			entity.Student = null;
@@ -988,1089 +2287,6 @@ namespace student_management_admin.DAO
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Schedule")]
-	public partial class Schedule : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _id;
-		
-		private string _class_id;
-		
-		private string _teacher_code;
-		
-		private string _subject_code;
-		
-		private System.DateTime _date_time;
-		
-		private int _slot;
-		
-		private string _location_id;
-		
-		private EntitySet<Attendance> _Attendances;
-		
-		private EntityRef<Class> _Class;
-		
-		private EntityRef<Teacher> _Teacher;
-		
-		private EntityRef<Location> _Location;
-		
-		private EntityRef<Subject> _Subject;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnidChanging(string value);
-    partial void OnidChanged();
-    partial void Onclass_idChanging(string value);
-    partial void Onclass_idChanged();
-    partial void Onteacher_codeChanging(string value);
-    partial void Onteacher_codeChanged();
-    partial void Onsubject_codeChanging(string value);
-    partial void Onsubject_codeChanged();
-    partial void Ondate_timeChanging(System.DateTime value);
-    partial void Ondate_timeChanged();
-    partial void OnslotChanging(int value);
-    partial void OnslotChanged();
-    partial void Onlocation_idChanging(string value);
-    partial void Onlocation_idChanged();
-    #endregion
-		
-		public Schedule()
-		{
-			this._Attendances = new EntitySet<Attendance>(new Action<Attendance>(this.attach_Attendances), new Action<Attendance>(this.detach_Attendances));
-			this._Class = default(EntityRef<Class>);
-			this._Teacher = default(EntityRef<Teacher>);
-			this._Location = default(EntityRef<Location>);
-			this._Subject = default(EntityRef<Subject>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string id
-		{
-			get
-			{
-				return this._id;
-			}
-			set
-			{
-				if ((this._id != value))
-				{
-					this.OnidChanging(value);
-					this.SendPropertyChanging();
-					this._id = value;
-					this.SendPropertyChanged("id");
-					this.OnidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_class_id", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string class_id
-		{
-			get
-			{
-				return this._class_id;
-			}
-			set
-			{
-				if ((this._class_id != value))
-				{
-					if (this._Class.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.Onclass_idChanging(value);
-					this.SendPropertyChanging();
-					this._class_id = value;
-					this.SendPropertyChanged("class_id");
-					this.Onclass_idChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_teacher_code", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string teacher_code
-		{
-			get
-			{
-				return this._teacher_code;
-			}
-			set
-			{
-				if ((this._teacher_code != value))
-				{
-					if (this._Teacher.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.Onteacher_codeChanging(value);
-					this.SendPropertyChanging();
-					this._teacher_code = value;
-					this.SendPropertyChanged("teacher_code");
-					this.Onteacher_codeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_subject_code", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string subject_code
-		{
-			get
-			{
-				return this._subject_code;
-			}
-			set
-			{
-				if ((this._subject_code != value))
-				{
-					if (this._Subject.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.Onsubject_codeChanging(value);
-					this.SendPropertyChanging();
-					this._subject_code = value;
-					this.SendPropertyChanged("subject_code");
-					this.Onsubject_codeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_date_time", DbType="Date NOT NULL")]
-		public System.DateTime date_time
-		{
-			get
-			{
-				return this._date_time;
-			}
-			set
-			{
-				if ((this._date_time != value))
-				{
-					this.Ondate_timeChanging(value);
-					this.SendPropertyChanging();
-					this._date_time = value;
-					this.SendPropertyChanged("date_time");
-					this.Ondate_timeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_slot", DbType="Int NOT NULL")]
-		public int slot
-		{
-			get
-			{
-				return this._slot;
-			}
-			set
-			{
-				if ((this._slot != value))
-				{
-					this.OnslotChanging(value);
-					this.SendPropertyChanging();
-					this._slot = value;
-					this.SendPropertyChanged("slot");
-					this.OnslotChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_location_id", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string location_id
-		{
-			get
-			{
-				return this._location_id;
-			}
-			set
-			{
-				if ((this._location_id != value))
-				{
-					if (this._Location.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.Onlocation_idChanging(value);
-					this.SendPropertyChanging();
-					this._location_id = value;
-					this.SendPropertyChanged("location_id");
-					this.Onlocation_idChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Schedule_Attendance", Storage="_Attendances", ThisKey="id", OtherKey="schedule_id")]
-		public EntitySet<Attendance> Attendances
-		{
-			get
-			{
-				return this._Attendances;
-			}
-			set
-			{
-				this._Attendances.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Class_Schedule", Storage="_Class", ThisKey="class_id", OtherKey="id", IsForeignKey=true)]
-		public Class Class
-		{
-			get
-			{
-				return this._Class.Entity;
-			}
-			set
-			{
-				Class previousValue = this._Class.Entity;
-				if (((previousValue != value) 
-							|| (this._Class.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Class.Entity = null;
-						previousValue.Schedules.Remove(this);
-					}
-					this._Class.Entity = value;
-					if ((value != null))
-					{
-						value.Schedules.Add(this);
-						this._class_id = value.id;
-					}
-					else
-					{
-						this._class_id = default(string);
-					}
-					this.SendPropertyChanged("Class");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Teacher_Schedule", Storage="_Teacher", ThisKey="teacher_code", OtherKey="code", IsForeignKey=true)]
-		public Teacher Teacher
-		{
-			get
-			{
-				return this._Teacher.Entity;
-			}
-			set
-			{
-				Teacher previousValue = this._Teacher.Entity;
-				if (((previousValue != value) 
-							|| (this._Teacher.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Teacher.Entity = null;
-						previousValue.Schedules.Remove(this);
-					}
-					this._Teacher.Entity = value;
-					if ((value != null))
-					{
-						value.Schedules.Add(this);
-						this._teacher_code = value.code;
-					}
-					else
-					{
-						this._teacher_code = default(string);
-					}
-					this.SendPropertyChanged("Teacher");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Location_Schedule", Storage="_Location", ThisKey="location_id", OtherKey="id", IsForeignKey=true)]
-		public Location Location
-		{
-			get
-			{
-				return this._Location.Entity;
-			}
-			set
-			{
-				Location previousValue = this._Location.Entity;
-				if (((previousValue != value) 
-							|| (this._Location.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Location.Entity = null;
-						previousValue.Schedules.Remove(this);
-					}
-					this._Location.Entity = value;
-					if ((value != null))
-					{
-						value.Schedules.Add(this);
-						this._location_id = value.id;
-					}
-					else
-					{
-						this._location_id = default(string);
-					}
-					this.SendPropertyChanged("Location");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Subject_Schedule", Storage="_Subject", ThisKey="subject_code", OtherKey="code", IsForeignKey=true)]
-		public Subject Subject
-		{
-			get
-			{
-				return this._Subject.Entity;
-			}
-			set
-			{
-				Subject previousValue = this._Subject.Entity;
-				if (((previousValue != value) 
-							|| (this._Subject.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Subject.Entity = null;
-						previousValue.Schedules.Remove(this);
-					}
-					this._Subject.Entity = value;
-					if ((value != null))
-					{
-						value.Schedules.Add(this);
-						this._subject_code = value.code;
-					}
-					else
-					{
-						this._subject_code = default(string);
-					}
-					this.SendPropertyChanged("Subject");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Attendances(Attendance entity)
-		{
-			this.SendPropertyChanging();
-			entity.Schedule = this;
-		}
-		
-		private void detach_Attendances(Attendance entity)
-		{
-			this.SendPropertyChanging();
-			entity.Schedule = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Location")]
-	public partial class Location : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _id;
-		
-		private string _building_id;
-		
-		private string _classroom_id;
-		
-		private EntitySet<Schedule> _Schedules;
-		
-		private EntityRef<Building> _Building;
-		
-		private EntityRef<Classroom> _Classroom;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnidChanging(string value);
-    partial void OnidChanged();
-    partial void Onbuilding_idChanging(string value);
-    partial void Onbuilding_idChanged();
-    partial void Onclassroom_idChanging(string value);
-    partial void Onclassroom_idChanged();
-    #endregion
-		
-		public Location()
-		{
-			this._Schedules = new EntitySet<Schedule>(new Action<Schedule>(this.attach_Schedules), new Action<Schedule>(this.detach_Schedules));
-			this._Building = default(EntityRef<Building>);
-			this._Classroom = default(EntityRef<Classroom>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string id
-		{
-			get
-			{
-				return this._id;
-			}
-			set
-			{
-				if ((this._id != value))
-				{
-					this.OnidChanging(value);
-					this.SendPropertyChanging();
-					this._id = value;
-					this.SendPropertyChanged("id");
-					this.OnidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_building_id", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string building_id
-		{
-			get
-			{
-				return this._building_id;
-			}
-			set
-			{
-				if ((this._building_id != value))
-				{
-					if (this._Building.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.Onbuilding_idChanging(value);
-					this.SendPropertyChanging();
-					this._building_id = value;
-					this.SendPropertyChanged("building_id");
-					this.Onbuilding_idChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_classroom_id", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string classroom_id
-		{
-			get
-			{
-				return this._classroom_id;
-			}
-			set
-			{
-				if ((this._classroom_id != value))
-				{
-					if (this._Classroom.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.Onclassroom_idChanging(value);
-					this.SendPropertyChanging();
-					this._classroom_id = value;
-					this.SendPropertyChanged("classroom_id");
-					this.Onclassroom_idChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Location_Schedule", Storage="_Schedules", ThisKey="id", OtherKey="location_id")]
-		public EntitySet<Schedule> Schedules
-		{
-			get
-			{
-				return this._Schedules;
-			}
-			set
-			{
-				this._Schedules.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Building_Location", Storage="_Building", ThisKey="building_id", OtherKey="id", IsForeignKey=true)]
-		public Building Building
-		{
-			get
-			{
-				return this._Building.Entity;
-			}
-			set
-			{
-				Building previousValue = this._Building.Entity;
-				if (((previousValue != value) 
-							|| (this._Building.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Building.Entity = null;
-						previousValue.Locations.Remove(this);
-					}
-					this._Building.Entity = value;
-					if ((value != null))
-					{
-						value.Locations.Add(this);
-						this._building_id = value.id;
-					}
-					else
-					{
-						this._building_id = default(string);
-					}
-					this.SendPropertyChanged("Building");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Classroom_Location", Storage="_Classroom", ThisKey="classroom_id", OtherKey="id", IsForeignKey=true)]
-		public Classroom Classroom
-		{
-			get
-			{
-				return this._Classroom.Entity;
-			}
-			set
-			{
-				Classroom previousValue = this._Classroom.Entity;
-				if (((previousValue != value) 
-							|| (this._Classroom.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Classroom.Entity = null;
-						previousValue.Locations.Remove(this);
-					}
-					this._Classroom.Entity = value;
-					if ((value != null))
-					{
-						value.Locations.Add(this);
-						this._classroom_id = value.id;
-					}
-					else
-					{
-						this._classroom_id = default(string);
-					}
-					this.SendPropertyChanged("Classroom");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Schedules(Schedule entity)
-		{
-			this.SendPropertyChanging();
-			entity.Location = this;
-		}
-		
-		private void detach_Schedules(Schedule entity)
-		{
-			this.SendPropertyChanging();
-			entity.Location = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Building")]
-	public partial class Building : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _name;
-		
-		private string _id;
-		
-		private EntitySet<Location> _Locations;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnnameChanging(string value);
-    partial void OnnameChanged();
-    partial void OnidChanging(string value);
-    partial void OnidChanged();
-    #endregion
-		
-		public Building()
-		{
-			this._Locations = new EntitySet<Location>(new Action<Location>(this.attach_Locations), new Action<Location>(this.detach_Locations));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
-		public string name
-		{
-			get
-			{
-				return this._name;
-			}
-			set
-			{
-				if ((this._name != value))
-				{
-					this.OnnameChanging(value);
-					this.SendPropertyChanging();
-					this._name = value;
-					this.SendPropertyChanged("name");
-					this.OnnameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string id
-		{
-			get
-			{
-				return this._id;
-			}
-			set
-			{
-				if ((this._id != value))
-				{
-					this.OnidChanging(value);
-					this.SendPropertyChanging();
-					this._id = value;
-					this.SendPropertyChanged("id");
-					this.OnidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Building_Location", Storage="_Locations", ThisKey="id", OtherKey="building_id")]
-		public EntitySet<Location> Locations
-		{
-			get
-			{
-				return this._Locations;
-			}
-			set
-			{
-				this._Locations.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Locations(Location entity)
-		{
-			this.SendPropertyChanging();
-			entity.Building = this;
-		}
-		
-		private void detach_Locations(Location entity)
-		{
-			this.SendPropertyChanging();
-			entity.Building = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Classroom")]
-	public partial class Classroom : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _name;
-		
-		private string _id;
-		
-		private EntitySet<Location> _Locations;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnnameChanging(string value);
-    partial void OnnameChanged();
-    partial void OnidChanging(string value);
-    partial void OnidChanged();
-    #endregion
-		
-		public Classroom()
-		{
-			this._Locations = new EntitySet<Location>(new Action<Location>(this.attach_Locations), new Action<Location>(this.detach_Locations));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
-		public string name
-		{
-			get
-			{
-				return this._name;
-			}
-			set
-			{
-				if ((this._name != value))
-				{
-					this.OnnameChanging(value);
-					this.SendPropertyChanging();
-					this._name = value;
-					this.SendPropertyChanged("name");
-					this.OnnameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string id
-		{
-			get
-			{
-				return this._id;
-			}
-			set
-			{
-				if ((this._id != value))
-				{
-					this.OnidChanging(value);
-					this.SendPropertyChanging();
-					this._id = value;
-					this.SendPropertyChanged("id");
-					this.OnidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Classroom_Location", Storage="_Locations", ThisKey="id", OtherKey="classroom_id")]
-		public EntitySet<Location> Locations
-		{
-			get
-			{
-				return this._Locations;
-			}
-			set
-			{
-				this._Locations.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Locations(Location entity)
-		{
-			this.SendPropertyChanging();
-			entity.Classroom = this;
-		}
-		
-		private void detach_Locations(Location entity)
-		{
-			this.SendPropertyChanging();
-			entity.Classroom = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Class_Teacher")]
-	public partial class Class_Teacher
-	{
-		
-		private string _class_id;
-		
-		private string _teacher_code;
-		
-		public Class_Teacher()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_class_id", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string class_id
-		{
-			get
-			{
-				return this._class_id;
-			}
-			set
-			{
-				if ((this._class_id != value))
-				{
-					this._class_id = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_teacher_code", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string teacher_code
-		{
-			get
-			{
-				return this._teacher_code;
-			}
-			set
-			{
-				if ((this._teacher_code != value))
-				{
-					this._teacher_code = value;
-				}
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Class_Student")]
-	public partial class Class_Student : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _class_id;
-		
-		private string _student_code;
-		
-		private string _id;
-		
-		private EntityRef<Class> _Class;
-		
-		private EntityRef<Student> _Student;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void Onclass_idChanging(string value);
-    partial void Onclass_idChanged();
-    partial void Onstudent_codeChanging(string value);
-    partial void Onstudent_codeChanged();
-    partial void OnidChanging(string value);
-    partial void OnidChanged();
-    #endregion
-		
-		public Class_Student()
-		{
-			this._Class = default(EntityRef<Class>);
-			this._Student = default(EntityRef<Student>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_class_id", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string class_id
-		{
-			get
-			{
-				return this._class_id;
-			}
-			set
-			{
-				if ((this._class_id != value))
-				{
-					if (this._Class.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.Onclass_idChanging(value);
-					this.SendPropertyChanging();
-					this._class_id = value;
-					this.SendPropertyChanged("class_id");
-					this.Onclass_idChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_student_code", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string student_code
-		{
-			get
-			{
-				return this._student_code;
-			}
-			set
-			{
-				if ((this._student_code != value))
-				{
-					if (this._Student.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.Onstudent_codeChanging(value);
-					this.SendPropertyChanging();
-					this._student_code = value;
-					this.SendPropertyChanged("student_code");
-					this.Onstudent_codeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string id
-		{
-			get
-			{
-				return this._id;
-			}
-			set
-			{
-				if ((this._id != value))
-				{
-					this.OnidChanging(value);
-					this.SendPropertyChanging();
-					this._id = value;
-					this.SendPropertyChanged("id");
-					this.OnidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Class_Class_Student", Storage="_Class", ThisKey="class_id", OtherKey="id", IsForeignKey=true)]
-		public Class Class
-		{
-			get
-			{
-				return this._Class.Entity;
-			}
-			set
-			{
-				Class previousValue = this._Class.Entity;
-				if (((previousValue != value) 
-							|| (this._Class.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Class.Entity = null;
-						previousValue.Class_Students.Remove(this);
-					}
-					this._Class.Entity = value;
-					if ((value != null))
-					{
-						value.Class_Students.Add(this);
-						this._class_id = value.id;
-					}
-					else
-					{
-						this._class_id = default(string);
-					}
-					this.SendPropertyChanged("Class");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Student_Class_Student", Storage="_Student", ThisKey="student_code", OtherKey="code", IsForeignKey=true)]
-		public Student Student
-		{
-			get
-			{
-				return this._Student.Entity;
-			}
-			set
-			{
-				Student previousValue = this._Student.Entity;
-				if (((previousValue != value) 
-							|| (this._Student.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Student.Entity = null;
-						previousValue.Class_Students.Remove(this);
-					}
-					this._Student.Entity = value;
-					if ((value != null))
-					{
-						value.Class_Students.Add(this);
-						this._student_code = value.code;
-					}
-					else
-					{
-						this._student_code = default(string);
-					}
-					this.SendPropertyChanged("Student");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Subject")]
 	public partial class Subject : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -2084,6 +2300,8 @@ namespace student_management_admin.DAO
 		private string _descript;
 		
 		private int _duration;
+		
+		private int _weekly_session;
 		
 		private EntitySet<Schedule> _Schedules;
 		
@@ -2099,6 +2317,8 @@ namespace student_management_admin.DAO
     partial void OndescriptChanged();
     partial void OndurationChanging(int value);
     partial void OndurationChanged();
+    partial void Onweekly_sessionChanging(int value);
+    partial void Onweekly_sessionChanged();
     #endregion
 		
 		public Subject()
@@ -2187,6 +2407,26 @@ namespace student_management_admin.DAO
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_weekly_session", DbType="Int NOT NULL")]
+		public int weekly_session
+		{
+			get
+			{
+				return this._weekly_session;
+			}
+			set
+			{
+				if ((this._weekly_session != value))
+				{
+					this.Onweekly_sessionChanging(value);
+					this.SendPropertyChanging();
+					this._weekly_session = value;
+					this.SendPropertyChanged("weekly_session");
+					this.Onweekly_sessionChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Subject_Schedule", Storage="_Schedules", ThisKey="code", OtherKey="subject_code")]
 		public EntitySet<Schedule> Schedules
 		{
@@ -2230,222 +2470,6 @@ namespace student_management_admin.DAO
 		{
 			this.SendPropertyChanging();
 			entity.Subject = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Attendance")]
-	public partial class Attendance : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _schedule_id;
-		
-		private string _student_code;
-		
-		private int _attended;
-		
-		private string _id;
-		
-		private EntityRef<Schedule> _Schedule;
-		
-		private EntityRef<Student> _Student;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void Onschedule_idChanging(string value);
-    partial void Onschedule_idChanged();
-    partial void Onstudent_codeChanging(string value);
-    partial void Onstudent_codeChanged();
-    partial void OnattendedChanging(int value);
-    partial void OnattendedChanged();
-    partial void OnidChanging(string value);
-    partial void OnidChanged();
-    #endregion
-		
-		public Attendance()
-		{
-			this._Schedule = default(EntityRef<Schedule>);
-			this._Student = default(EntityRef<Student>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_schedule_id", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string schedule_id
-		{
-			get
-			{
-				return this._schedule_id;
-			}
-			set
-			{
-				if ((this._schedule_id != value))
-				{
-					if (this._Schedule.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.Onschedule_idChanging(value);
-					this.SendPropertyChanging();
-					this._schedule_id = value;
-					this.SendPropertyChanged("schedule_id");
-					this.Onschedule_idChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_student_code", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string student_code
-		{
-			get
-			{
-				return this._student_code;
-			}
-			set
-			{
-				if ((this._student_code != value))
-				{
-					if (this._Student.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.Onstudent_codeChanging(value);
-					this.SendPropertyChanging();
-					this._student_code = value;
-					this.SendPropertyChanged("student_code");
-					this.Onstudent_codeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_attended", DbType="Int NOT NULL")]
-		public int attended
-		{
-			get
-			{
-				return this._attended;
-			}
-			set
-			{
-				if ((this._attended != value))
-				{
-					this.OnattendedChanging(value);
-					this.SendPropertyChanging();
-					this._attended = value;
-					this.SendPropertyChanged("attended");
-					this.OnattendedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="NVarChar(100) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string id
-		{
-			get
-			{
-				return this._id;
-			}
-			set
-			{
-				if ((this._id != value))
-				{
-					this.OnidChanging(value);
-					this.SendPropertyChanging();
-					this._id = value;
-					this.SendPropertyChanged("id");
-					this.OnidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Schedule_Attendance", Storage="_Schedule", ThisKey="schedule_id", OtherKey="id", IsForeignKey=true)]
-		public Schedule Schedule
-		{
-			get
-			{
-				return this._Schedule.Entity;
-			}
-			set
-			{
-				Schedule previousValue = this._Schedule.Entity;
-				if (((previousValue != value) 
-							|| (this._Schedule.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Schedule.Entity = null;
-						previousValue.Attendances.Remove(this);
-					}
-					this._Schedule.Entity = value;
-					if ((value != null))
-					{
-						value.Attendances.Add(this);
-						this._schedule_id = value.id;
-					}
-					else
-					{
-						this._schedule_id = default(string);
-					}
-					this.SendPropertyChanged("Schedule");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Student_Attendance", Storage="_Student", ThisKey="student_code", OtherKey="code", IsForeignKey=true)]
-		public Student Student
-		{
-			get
-			{
-				return this._Student.Entity;
-			}
-			set
-			{
-				Student previousValue = this._Student.Entity;
-				if (((previousValue != value) 
-							|| (this._Student.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Student.Entity = null;
-						previousValue.Attendances.Remove(this);
-					}
-					this._Student.Entity = value;
-					if ((value != null))
-					{
-						value.Attendances.Add(this);
-						this._student_code = value.code;
-					}
-					else
-					{
-						this._student_code = default(string);
-					}
-					this.SendPropertyChanged("Student");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
 		}
 	}
 }
