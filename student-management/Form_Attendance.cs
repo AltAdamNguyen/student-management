@@ -14,6 +14,7 @@ namespace student_management
     {
         DataClassesDataContext db = new DataClassesDataContext();
         string schedule_id { get; set; }
+        
         List<string> students = new List<string>();
         public Form_Attendance(string id)
         {

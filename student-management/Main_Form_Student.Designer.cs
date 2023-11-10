@@ -59,6 +59,7 @@ namespace student_management
             // 
             // cbYear
             // 
+            this.cbYear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbYear.FormattingEnabled = true;
             this.cbYear.Location = new System.Drawing.Point(10, 10);
             this.cbYear.Name = "cbYear";
@@ -68,6 +69,7 @@ namespace student_management
             // 
             // cbDateOfWeek
             // 
+            this.cbDateOfWeek.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbDateOfWeek.FormattingEnabled = true;
             this.cbDateOfWeek.Location = new System.Drawing.Point(119, 10);
             this.cbDateOfWeek.Name = "cbDateOfWeek";
